@@ -1,38 +1,35 @@
 package modelsUsers
 
 import (
-	"fmt"
-	"github.com/jmoiron/sqlx"
+	"database/sql"
+	"time"
+	// "github.com/jmoiron/sqlx"
 	"github.com/putragabrielll/go-backend/src/lib"
 )
 
 
-// type Person struct {
-//     FirstName string `db:"first_name"`
-//     LastName  string `db:"last_name"`
-//     Email     string
-// }
+type Person struct {
+    Id 				int 				`db:"id"`
+	FullName 		sql.NullString 		`db:"fullName"`
+	Email 			string 				`db:"email"`
+	PhoneNumber 	sql.NullString 		`db:"phoneNumber"`
+	Address 		sql.NullString 		`db:"address"`
+	Picture 		sql.NullString 		`db:"picture"`
+	Role 			string 		`db:"role"`
+	Password 		string 				`db:"password"`
+	CreatedAt 		time.Time 			`db:"createdAt"`
+	UpdatedAt 		sql.NullTime 		`db:"updatedAt"`
+}
 
-// type TodoStorage struct{
-// 	Conn *sqlx.DB
-// }
+// var DbConnect *sqlx.DB = lib.DBClient // V1. menggunakan koneksi dari lib.
+// var DbConnect = lib.DbConnection() // V2. menggunakan koneksi dari lib.
 
-// func NewTodoStorage(conn *sqlx.DB) *TodoStorage{
-// 	return &TodoStorage{Conn: conn}
-// }
+func ListAllUsers() ([]Person, error) {
+	// people := []Person{} // V1
+    // db.Select(&people, "SELECT * FROM users") // V1
 
-var DbConnect *sqlx.DB = lib.DBClient // menggunakan koneksi dari lib.
-
-func ListAllUsers(db *sqlx.DB){
-	lib.DbConnection()
-
-	people := []Person{}
-    db.Select(&people, "SELECT * FROM person ORDER BY first_name ASC")
-    jason, john := people[0], people[1]
-
-    fmt.Printf("%#v\n%#v", jason, john)
-	
-	
-	// tx := db.MustBegin()
-	// tx.Select(`SELECT * FROM "users"`)
+	sql := `SELECT * FROM users`
+	data := []Person{}
+	err := lib.DbConnection().Select(&data, sql)
+	return data, err
 }
