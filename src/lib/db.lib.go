@@ -6,13 +6,10 @@ import (
 )
 
 
-var DBClient *sqlx.DB
 
-func DbConnection(){
-	// dbname=aplikasiCoffeeShop sslmode=disable
-	// postgresql://localhost:5432/aplikasiCoffeeShop
+func DbConnection() *sqlx.DB{
 
-	db, err := sqlx.Open("postgres", os.Getenv("DATABASE_URL"))
+	db, err := sqlx.Connect("postgres", os.Getenv("DATABASE_CONNECT"))
 	if err != nil {
 		panic(err.Error())
 	}
@@ -22,5 +19,7 @@ func DbConnection(){
 		panic(err.Error())
 	}
 
-	DBClient = db
+	return db
 }
+
+var DBClient *sqlx.DB = DbConnection() // untuk memanggil function koneksi yg sudah di buat

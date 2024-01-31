@@ -2,27 +2,28 @@ package modelsUsers
 
 import (
 	"fmt"
-
 	"github.com/jmoiron/sqlx"
 	"github.com/putragabrielll/go-backend/src/lib"
 )
 
 
-type Person struct {
-    FirstName string `db:"first_name"`
-    LastName  string `db:"last_name"`
-    Email     string
-}
+// type Person struct {
+//     FirstName string `db:"first_name"`
+//     LastName  string `db:"last_name"`
+//     Email     string
+// }
 
-type TodoStorage struct{
-	Conn *sqlx.DB
-}
+// type TodoStorage struct{
+// 	Conn *sqlx.DB
+// }
 
-func NewTodoStorage(conn *sqlx.DB) *TodoStorage{
-	return &TodoStorage{Conn: conn}
-}
+// func NewTodoStorage(conn *sqlx.DB) *TodoStorage{
+// 	return &TodoStorage{Conn: conn}
+// }
 
-func UsersModel(db *sqlx.DB){
+var DbConnect *sqlx.DB = lib.DBClient // menggunakan koneksi dari lib.
+
+func ListAllUsers(db *sqlx.DB){
 	lib.DbConnection()
 
 	people := []Person{}
