@@ -1,18 +1,26 @@
 package lib
 
 import (
-	"log"
+	"os"
 	"github.com/jmoiron/sqlx"
 )
 
 
-func LibDb(){
+var DBClient *sqlx.DB
+
+func DbConnection(){
 	// dbname=aplikasiCoffeeShop sslmode=disable
 	// postgresql://localhost:5432/aplikasiCoffeeShop
-	
-	db, err := sqlx.Connect("postgres", "dbname=aplikasiCoffeeShop sslmode=disable")
-	defer db.Close()
+
+	db, err := sqlx.Open("postgres", os.Getenv("DATABASE_URL"))
 	if err != nil {
-		log.Fatalln(err)
+		panic(err.Error())
 	}
+
+	err = db.Ping()
+	if err != nil {
+		panic(err.Error())
+	}
+
+	DBClient = db
 }

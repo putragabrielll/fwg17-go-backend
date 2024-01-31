@@ -6,5 +6,5 @@ import (
 )
 
 func usersRouter(r *gin.RouterGroup){
-	r.GET("/", adminController.DataUsers)
+	r.GET("/", adminController.ListAllUsers)
 }
