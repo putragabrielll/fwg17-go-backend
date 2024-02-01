@@ -1,13 +1,16 @@
-package adminController
+package adminUsersController
 
 import (
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	// "github.com/putragabrielll/go-backend/src/helpers"
 	modelsUsers "github.com/putragabrielll/go-backend/src/models"
 )
+
+
 
 
 type Person struct{
@@ -34,6 +37,13 @@ type responseBack struct{
 	Message string		`json:"message"`
 }
 
+
+
+
+
+
+
+// SELECT ALL USERS
 func ListAllUsers(c *gin.Context){ // contex => c "inisial aja"
 	users, err := modelsUsers.ListAllUsers()
 	// helpers.Utils(err []helpers.responseBack{}) // Error Handler
@@ -54,3 +64,29 @@ func ListAllUsers(c *gin.Context){ // contex => c "inisial aja"
 		Results: users,
 	})
 }
+
+
+// GET USERS BY id
+func IdUsers(c *gin.Context){
+	id, _ := strconv.Atoi(c.Param("id"))
+	users, err := modelsUsers.FindUsersId(id)
+
+	if err != nil {
+		log.Fatalln(err)
+		c.JSON(http.StatusInternalServerError, &responseBack{
+			Success: false,
+			Message: "Internal Server Error",
+		})
+		return 
+	}
+	
+
+	c.JSON(http.StatusOK, &responseList{
+		Success: true,
+		Message: "List all users!",
+		Results: users,
+	})
+}
+
+
+//

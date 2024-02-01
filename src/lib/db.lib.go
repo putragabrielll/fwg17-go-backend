@@ -10,7 +10,7 @@ import (
 
 
 
-func DbConnection() *sqlx.DB{
+func DbConnection() *sqlx.DB{ // outputnya berupa tipe data *sqlx.DB
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file")
@@ -31,4 +31,4 @@ func DbConnection() *sqlx.DB{
 	return db
 }
 
-var DBClient *sqlx.DB = DbConnection() // untuk memanggil function koneksi yg sudah di buat
+// var DBClient *sqlx.DB = DbConnection() // untuk memanggil function koneksi yg sudah di buat

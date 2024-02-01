@@ -15,7 +15,7 @@ type Person struct {
 	PhoneNumber 	sql.NullString 		`db:"phoneNumber"`
 	Address 		sql.NullString 		`db:"address"`
 	Picture 		sql.NullString 		`db:"picture"`
-	Role 			string 		`db:"role"`
+	Role 			string 				`db:"role"`
 	Password 		string 				`db:"password"`
 	CreatedAt 		time.Time 			`db:"createdAt"`
 	UpdatedAt 		sql.NullTime 		`db:"updatedAt"`
@@ -31,5 +31,12 @@ func ListAllUsers() ([]Person, error) {
 	sql := `SELECT * FROM users`
 	data := []Person{}
 	err := lib.DbConnection().Select(&data, sql)
+	return data, err
+}
+
+func FindUsersId(id int) (Person, error){
+	sql := `SELECT * FROM "users" WHERE "id"=$1`
+	data := Person{}
+	err := lib.DbConnection().Get(&data, sql, id) // id diambil dari parameter id.
 	return data, err
 }
