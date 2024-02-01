@@ -10,10 +10,10 @@ import (
 
 type Person struct {
     Id 				int 				`db:"id" json:"id"`
-	FullName 		sql.NullString 		`db:"fullName" json:"fullname"`
+	FullName 		sql.NullString 		`db:"fullName" json:"fullName" form:"fullName"`
 	Email 			string 				`db:"email" json:"email" form:"email"`
-	PhoneNumber 	sql.NullString 		`db:"phoneNumber" json:"phoneNumber"`
-	Address 		sql.NullString 		`db:"address" json:"address"`
+	PhoneNumber 	sql.NullString 		`db:"phoneNumber" json:"phoneNumber" form:"phoneNumber"`
+	Address 		sql.NullString 		`db:"address" json:"address" form:"address"`
 	Picture 		sql.NullString 		`db:"picture" json:"picture"`
 	Role 			string 				`db:"role" json:"role" form:"role"`
 	Password 		string 				`db:"password" json:"password" form:"password"`
@@ -24,6 +24,8 @@ type Person struct {
 // var DbConnect *sqlx.DB = lib.DBClient // V1. menggunakan koneksi dari lib.
 // var DbConnect = lib.DbConnection() // V2. menggunakan koneksi dari lib.
 
+
+// SELECT * users
 func ListAllUsers() ([]Person, error) {
 	// people := []Person{} // V1
     // db.Select(&people, "SELECT * FROM users") // V1
@@ -34,6 +36,7 @@ func ListAllUsers() ([]Person, error) {
 	return data, err
 }
 
+// SELECT users BY id
 func FindUsersId(id int) (Person, error){
 	sql := `SELECT * FROM "users" WHERE "id"=$1`
 	data := Person{}
@@ -41,12 +44,34 @@ func FindUsersId(id int) (Person, error){
 	return data, err
 }
 
+// CREATE users
 func CreateUsers(data Person) (Person, error){
 	sql := `
 	INSERT INTO "users"
     ("email", "role", "password")
     VALUES
     (:email, :role, :password)
+    RETURNING *
+    `
+	returning := Person{}
+	rows, err := lib.DbConnection().NamedQuery(sql, data)
+	
+	for rows.Next(){ // rows.Next() => akan mengembalikan boolean.
+		rows.StructScan(&returning)
+	}
+	return returning, err
+}
+
+// UPDATE users
+func UpdateUsers(data Person) (Person, error){ // bisa teruddate jika type untuk fullName di ganti jadi string.
+	sql := `
+	UPDATE "users" SET 
+	"fullName"=:fullName, 
+	"phoneNumber"=:phoneNumber, 
+	"address"=:address, 
+	"password"=:password, 
+	"updatedAt"=now()
+    WHERE id=:id
     RETURNING *
     `
 	returning := Person{}

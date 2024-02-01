@@ -30,10 +30,6 @@ type responseList struct{
 	Results interface{}	`json:"results"`
 
 }
-// type responseBack struct{
-// 	Success bool		`json:"success"`
-// 	Message string		`json:"message"`
-// }
 
 
 
@@ -88,7 +84,8 @@ func IdUsers(c *gin.Context){
 func CreateUsers(c *gin.Context){
 
 	usersData := modelsUsers.Person{} // menggunakan tipe data yg ada di model users.
-	c.Bind(&usersData)
+	c.Bind(&usersData) // menggunakan pointer
+	usersData.Role = "customer"
 	createUser, err := modelsUsers.CreateUsers(usersData)
 	helpers.Utils(err) // Error Handler
 
@@ -96,5 +93,23 @@ func CreateUsers(c *gin.Context){
 		Success: true,
 		Message: "Create users successfully!",
 		Results: createUser,
+	})
+}
+
+
+// UPDATE USERS
+func UpdateUsers(c *gin.Context){
+	id, _ := strconv.Atoi(c.Param("id"))
+	usersData := modelsUsers.Person{} // menggunakan tipe data yg ada di model users.
+	c.Bind(&usersData) // menggunakan pointer
+	usersData.Id = id // mengarahkan isi dari usersData dengan value id di ambil dari id.
+
+	updatedUsers, err := modelsUsers.UpdateUsers(usersData)
+	helpers.Utils(err) // Error Handler
+
+	c.JSON(http.StatusOK, &responseList{
+		Success: true,
+		Message: "Users updated successfully!",
+		Results: updatedUsers,
 	})
 }

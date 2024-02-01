@@ -4,7 +4,6 @@ import (
 	"log"
 	"net/http"
 	"strings"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -18,6 +17,7 @@ type responseBack struct{
 var c *gin.Context // untuk menggunakan gin context
 
 func Utils(err error){
+	// log.Fatalln(err)
 	if err != nil {
 		if strings.HasPrefix(err.Error(), "sql: no rows in result set") { // masi bermasalah
 			log.Fatalln(err)
