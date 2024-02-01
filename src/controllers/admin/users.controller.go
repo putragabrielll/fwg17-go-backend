@@ -113,3 +113,17 @@ func UpdateUsers(c *gin.Context){
 		Results: updatedUsers,
 	})
 }
+
+
+// DELETE USERS
+func DeleteUsers(c *gin.Context){
+	id, _ := strconv.Atoi(c.Param("id"))
+	users, err := modelsUsers.DeleteUsersId(id)
+	helpers.Utils(err) // Error Handler
+
+	c.JSON(http.StatusOK, &responseList{
+		Success: true,
+		Message: "Delete users successfully!",
+		Results: users,
+	})
+}

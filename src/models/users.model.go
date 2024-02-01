@@ -69,11 +69,15 @@ func UpdateUsers(data Person) (Person, error){ // bisa teruddate jika type untuk
 	"fullName"=:fullName, 
 	"phoneNumber"=:phoneNumber, 
 	"address"=:address, 
-	"password"=:password, 
+	"password"=COALESCE(NULLIF(:password,''),password), 
 	"updatedAt"=now()
     WHERE id=:id
     RETURNING *
     `
+	// "fullName"=COALESCE(NULLIF(:fullName,''),fullName),
+	// "phoneNumber"=COALESCE(NULLIF(:phoneNumber,''),phoneNumber),
+	// "address"=COALESCE(NULLIF(:address,''),address),
+	// "password"=COALESCE(NULLIF(:password,''),password),
 	returning := Person{}
 	rows, err := lib.DbConnection().NamedQuery(sql, data)
 	
@@ -81,4 +85,12 @@ func UpdateUsers(data Person) (Person, error){ // bisa teruddate jika type untuk
 		rows.StructScan(&returning)
 	}
 	return returning, err
+}
+
+// DELETE users BY id
+func DeleteUsersId(id int) (Person, error){
+	sql := `DELETE FROM "users" WHERE "id"= $1 RETURNING *`
+	data := Person{}
+	err := lib.DbConnection().Get(&data, sql, id) // id diambil dari parameter id.
+	return data, err
 }
