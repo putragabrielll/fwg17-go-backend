@@ -3,6 +3,7 @@ module github.com/putragabrielll/go-backend
 go 1.21.3
 
 require (
+	github.com/LukaGiorgadze/gonull v1.2.0
 	github.com/gin-gonic/gin v1.9.1
 	github.com/jmoiron/sqlx v1.3.5
 	github.com/joho/godotenv v1.5.1

@@ -6,43 +6,19 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/putragabrielll/go-backend/src/helpers"
 	modelsUsers "github.com/putragabrielll/go-backend/src/models"
+	"github.com/putragabrielll/go-backend/src/services"
 )
-
-
-
-
-// type Person struct{
-// 	Id int 				`json:"id"`
-// 	FullName string 	`json:"fullname"`
-// 	Email string 		`json:"email"`
-// 	PhoneNumber string 	`json:"phoneNumber"`
-// 	Address string 		`json:"address"`
-// 	Picture string 		`json:"picture"`
-// 	Role string 		`json:"role"`
-// 	Password string 	`json:"password"`
-// 	CreatedAt string 	`json:"createdAt"`
-// 	UpdatedAt string 	`json:"updatedAt"`
-// }
-
-type responseList struct{
-	Success bool		`json:"success"`
-	Message string		`json:"message"`
-	Results interface{}	`json:"results"`
-
-}
-
-
-
-
-
-
 
 // SELECT ALL USERS
 func ListAllUsers(c *gin.Context){ // contex => c "inisial aja"
 	users, err := modelsUsers.ListAllUsers()
-	helpers.Utils(err) // Error Handler
+	if err != nil {
+		msg := "Users not found"
+		helpers.Utils(err, msg, c) // Error Handler
+		return
+	}
 	
-	c.JSON(http.StatusOK, &responseList{
+	c.JSON(http.StatusOK, &services.ResponseList{
 		Success: true,
 		Message: "List all users!",
 		Results: users,
@@ -54,27 +30,15 @@ func ListAllUsers(c *gin.Context){ // contex => c "inisial aja"
 func IdUsers(c *gin.Context){
 	id, _ := strconv.Atoi(c.Param("id"))
 	users, err := modelsUsers.FindUsersId(id)
-	helpers.Utils(err) // Error Handler
+	if err != nil {
+		msg := "Users not found"
+		helpers.Utils(err, msg, c) // Error Handler
+		return
+	}
 
-	// if err != nil {
-	// 	if strings.HasPrefix(err.Error(), "sql: no rows in result set") {
-	// 		c.JSON(http.StatusNotFound, &responseBack{
-	// 			Success: false,
-	// 			Message: "Users not found",
-	// 		})
-	// 		return
-	// 	}
-
-	// 	c.JSON(http.StatusInternalServerError, &responseBack{
-	// 		Success: false,
-	// 		Message: "Internal Server Error",
-	// 	})
-	// 	return 
-	// }
-
-	c.JSON(http.StatusOK, &responseList{
+	c.JSON(http.StatusOK, &services.ResponseList{
 		Success: true,
-		Message: "List all users!",
+		Message: "Detail users!",
 		Results: users,
 	})
 }
@@ -82,14 +46,18 @@ func IdUsers(c *gin.Context){
 
 // CREATE USERS
 func CreateUsers(c *gin.Context){
-
-	usersData := modelsUsers.Person{} // menggunakan tipe data yg ada di model users.
-	c.Bind(&usersData) // menggunakan pointer
+	usersData := services.Person{} // menggunakan tipe data yg ada di model users.
+	err := c.Bind(&usersData) // menggunakan pointer
+	if err != nil {
+		msg := "Invalid Email!"
+		helpers.Utils(err, msg, c) // Error Handle
+		return
+	}
 	usersData.Role = "customer"
-	createUser, err := modelsUsers.CreateUsers(usersData)
-	helpers.Utils(err) // Error Handler
 
-	c.JSON(http.StatusOK, &responseList{
+
+	createUser, _ := modelsUsers.CreateUsers(usersData)
+	c.JSON(http.StatusOK, &services.ResponseList{
 		Success: true,
 		Message: "Create users successfully!",
 		Results: createUser,
@@ -100,14 +68,23 @@ func CreateUsers(c *gin.Context){
 // UPDATE USERS
 func UpdateUsers(c *gin.Context){
 	id, _ := strconv.Atoi(c.Param("id"))
-	usersData := modelsUsers.Person{} // menggunakan tipe data yg ada di model users.
-	c.Bind(&usersData) // menggunakan pointer
-	usersData.Id = id // mengarahkan isi dari usersData dengan value id di ambil dari id.
+	usersData := services.Person{} // menggunakan tipe data yg ada di model users.
+	err := c.Bind(&usersData) // menggunakan pointer
+	if err != nil {
+		msg := "Invalid Email!"
+		helpers.Utils(err, msg, c) // Error Handle
+		return
+	}
+	usersData.Id = id // mengarahkan isi dari usersData dengan value "id" di ambil dari id di atas.
 
 	updatedUsers, err := modelsUsers.UpdateUsers(usersData)
-	helpers.Utils(err) // Error Handler
+	if err != nil {
+		msg := "Users not found"
+		helpers.Utils(err, msg, c) // Error Handler
+		return
+	}
 
-	c.JSON(http.StatusOK, &responseList{
+	c.JSON(http.StatusOK, &services.ResponseList{
 		Success: true,
 		Message: "Users updated successfully!",
 		Results: updatedUsers,
@@ -119,9 +96,13 @@ func UpdateUsers(c *gin.Context){
 func DeleteUsers(c *gin.Context){
 	id, _ := strconv.Atoi(c.Param("id"))
 	users, err := modelsUsers.DeleteUsersId(id)
-	helpers.Utils(err) // Error Handler
+	if err != nil {
+		msg := "Users not found"
+		helpers.Utils(err, msg, c) // Error Handler
+		return
+	}
 
-	c.JSON(http.StatusOK, &responseList{
+	c.JSON(http.StatusOK, &services.ResponseList{
 		Success: true,
 		Message: "Delete users successfully!",
 		Results: users,

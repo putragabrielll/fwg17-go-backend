@@ -1,51 +1,32 @@
 package modelsUsers
 
 import (
-	"database/sql"
-	"time"
 	// "github.com/jmoiron/sqlx"
 	"github.com/putragabrielll/go-backend/src/lib"
+	"github.com/putragabrielll/go-backend/src/services"
 )
 
-
-type Person struct {
-    Id 				int 				`db:"id" json:"id"`
-	FullName 		sql.NullString 		`db:"fullName" json:"fullName" form:"fullName"`
-	Email 			string 				`db:"email" json:"email" form:"email"`
-	PhoneNumber 	sql.NullString 		`db:"phoneNumber" json:"phoneNumber" form:"phoneNumber"`
-	Address 		sql.NullString 		`db:"address" json:"address" form:"address"`
-	Picture 		sql.NullString 		`db:"picture" json:"picture"`
-	Role 			string 				`db:"role" json:"role" form:"role"`
-	Password 		string 				`db:"password" json:"password" form:"password"`
-	CreatedAt 		time.Time 			`db:"createdAt" json:"createdAt"`
-	UpdatedAt 		sql.NullTime 		`db:"updatedAt" json:"updatedAt"`
-}
-
-// var DbConnect *sqlx.DB = lib.DBClient // V1. menggunakan koneksi dari lib.
-// var DbConnect = lib.DbConnection() // V2. menggunakan koneksi dari lib.
-
-
 // SELECT * users
-func ListAllUsers() ([]Person, error) {
+func ListAllUsers() ([]services.Person, error) {
 	// people := []Person{} // V1
     // db.Select(&people, "SELECT * FROM users") // V1
 
 	sql := `SELECT * FROM "users"`
-	data := []Person{}
+	data := []services.Person{}
 	err := lib.DbConnection().Select(&data, sql)
 	return data, err
 }
 
 // SELECT users BY id
-func FindUsersId(id int) (Person, error){
+func FindUsersId(id int) (services.Person, error){
 	sql := `SELECT * FROM "users" WHERE "id"=$1`
-	data := Person{}
+	data := services.Person{}
 	err := lib.DbConnection().Get(&data, sql, id) // id diambil dari parameter id.
 	return data, err
 }
 
 // CREATE users
-func CreateUsers(data Person) (Person, error){
+func CreateUsers(data services.Person) (services.Person, error){
 	sql := `
 	INSERT INTO "users"
     ("email", "role", "password")
@@ -53,7 +34,7 @@ func CreateUsers(data Person) (Person, error){
     (:email, :role, :password)
     RETURNING *
     `
-	returning := Person{}
+	returning := services.Person{}
 	rows, err := lib.DbConnection().NamedQuery(sql, data)
 	
 	for rows.Next(){ // rows.Next() => akan mengembalikan boolean.
@@ -63,7 +44,7 @@ func CreateUsers(data Person) (Person, error){
 }
 
 // UPDATE users
-func UpdateUsers(data Person) (Person, error){ // bisa teruddate jika type untuk fullName di ganti jadi string.
+func UpdateUsers(data services.Person) (services.Person, error){ // bisa teruddate jika type untuk fullName di ganti jadi string.
 	sql := `
 	UPDATE "users" SET 
 	"fullName"=:fullName, 
@@ -78,7 +59,7 @@ func UpdateUsers(data Person) (Person, error){ // bisa teruddate jika type untuk
 	// "phoneNumber"=COALESCE(NULLIF(:phoneNumber,''),phoneNumber),
 	// "address"=COALESCE(NULLIF(:address,''),address),
 	// "password"=COALESCE(NULLIF(:password,''),password),
-	returning := Person{}
+	returning := services.Person{}
 	rows, err := lib.DbConnection().NamedQuery(sql, data)
 	
 	for rows.Next(){ // rows.Next() => akan mengembalikan boolean.
@@ -88,9 +69,9 @@ func UpdateUsers(data Person) (Person, error){ // bisa teruddate jika type untuk
 }
 
 // DELETE users BY id
-func DeleteUsersId(id int) (Person, error){
+func DeleteUsersId(id int) (services.Person, error){
 	sql := `DELETE FROM "users" WHERE "id"= $1 RETURNING *`
-	data := Person{}
+	data := services.Person{}
 	err := lib.DbConnection().Get(&data, sql, id) // id diambil dari parameter id.
 	return data, err
 }
