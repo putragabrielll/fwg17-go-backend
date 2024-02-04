@@ -51,14 +51,14 @@ func UpdateUsers(data services.Person) (services.Person, error){ // bisa terudda
 	"phoneNumber"=:phoneNumber, 
 	"address"=:address, 
 	"password"=COALESCE(NULLIF(:password,''),password), 
-	"updatedAt"=now()
+	"updatedAt"=NOW()
     WHERE id=:id
     RETURNING *
     `
-	// "fullName"=COALESCE(NULLIF(:fullName,''),fullName),
-	// "phoneNumber"=COALESCE(NULLIF(:phoneNumber,''),phoneNumber),
-	// "address"=COALESCE(NULLIF(:address,''),address),
-	// "password"=COALESCE(NULLIF(:password,''),password),
+	// "fullName"=COALESCE(NULLIF(:fullName,''),"fullName"),
+	// "phoneNumber"=COALESCE(NULLIF(:phoneNumber,''),"phoneNumber"),
+	// "address"=COALESCE(NULLIF(:address,''),"address"),
+	// "password"=COALESCE(NULLIF(:password,''),"password"),
 	returning := services.Person{}
 	rows, err := lib.DbConnection().NamedQuery(sql, data)
 	

@@ -11,7 +11,7 @@ import (
 type Person struct {
     Id 				int 							`db:"id" json:"id"`
 	FullName 		gonull.Nullable[string] 		`db:"fullName" json:"fullName" form:"fullName"`
-	Email 			string 							`db:"email" json:"email" form:"email" binding:"email"`
+	Email 			string 							`db:"email" json:"email" form:"email"`
 	PhoneNumber 	gonull.Nullable[string] 		`db:"phoneNumber" json:"phoneNumber" form:"phoneNumber"`
 	Address 		gonull.Nullable[string] 		`db:"address" json:"address" form:"address"`
 	Picture 		gonull.Nullable[string] 		`db:"picture" json:"picture"`

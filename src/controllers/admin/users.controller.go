@@ -3,6 +3,7 @@ package adminUsersController
 import (
 	"net/http"
 	"strconv"
+	"github.com/KEINOS/go-argonize"
 	"github.com/gin-gonic/gin"
 	"github.com/putragabrielll/go-backend/src/helpers"
 	modelsUsers "github.com/putragabrielll/go-backend/src/models"
@@ -47,12 +48,16 @@ func IdUsers(c *gin.Context){
 // CREATE USERS
 func CreateUsers(c *gin.Context){
 	usersData := services.Person{} // menggunakan tipe data yg ada di model users.
-	err := c.Bind(&usersData) // menggunakan pointer
-	if err != nil {
-		msg := "Invalid Email!"
-		helpers.Utils(err, msg, c) // Error Handle
-		return
-	}
+	c.ShouldBind(&usersData) // menggunakan pointer
+	// if err != nil {
+	// 	msg := "Invalid Email!"
+	// 	helpers.Utils(err, msg, c) // Error Handle
+	// 	return
+	// }
+	paswdhash := []byte(usersData.Password) // proses hashing password
+	hasedPasswd, _ := argonize.Hash(paswdhash)
+
+	usersData.Password = hasedPasswd.String()
 	usersData.Role = "customer"
 
 
@@ -69,12 +74,16 @@ func CreateUsers(c *gin.Context){
 func UpdateUsers(c *gin.Context){
 	id, _ := strconv.Atoi(c.Param("id"))
 	usersData := services.Person{} // menggunakan tipe data yg ada di model users.
-	err := c.Bind(&usersData) // menggunakan pointer
-	if err != nil {
-		msg := "Invalid Email!"
-		helpers.Utils(err, msg, c) // Error Handle
-		return
-	}
+	c.ShouldBind(&usersData) // menggunakan pointer
+	// if err != nil {
+	// 	msg := "Invalid Email!"
+	// 	helpers.Utils(err, msg, c) // Error Handle
+	// 	return
+	// }
+	paswdhash := []byte(usersData.Password) // proses hashing password
+	hasedPasswd, _ := argonize.Hash(paswdhash)
+	
+	usersData.Password = hasedPasswd.String()
 	usersData.Id = id // mengarahkan isi dari usersData dengan value "id" di ambil dari id di atas.
 
 	updatedUsers, err := modelsUsers.UpdateUsers(usersData)
