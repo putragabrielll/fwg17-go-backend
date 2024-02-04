@@ -1,4 +1,4 @@
-package admin
+package adminRouters
 
 import (
 	"github.com/gin-gonic/gin"

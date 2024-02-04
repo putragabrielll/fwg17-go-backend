@@ -25,13 +25,13 @@ func FindUsersId(id int) (services.Person, error){
 	return data, err
 }
 
-// CREATE users
+// CREATE users ADMIN
 func CreateUsers(data services.Person) (services.Person, error){
 	sql := `
 	INSERT INTO "users"
-    ("email", "role", "password")
+    ("fullName", "email", "phoneNumber", "address", "picture", "role", "password")
     VALUES
-    (:email, :role, :password)
+    (:fullName, :email, :phoneNumber, :address, :picture, :role, :password)
     RETURNING *
     `
 	returning := services.Person{}
@@ -74,4 +74,34 @@ func DeleteUsersId(id int) (services.Person, error){
 	data := services.Person{}
 	err := lib.DbConnection().Get(&data, sql, id) // id diambil dari parameter id.
 	return data, err
+}
+
+
+
+
+//------------ AUTH ------------
+// LOGIN users BY email
+func FindUsersByEmail(email string) (services.Person, error){
+	sql := `SELECT * FROM "users" WHERE "email"=$1`
+	data := services.Person{}
+	err := lib.DbConnection().Get(&data, sql, email) // id diambil dari parameter id.
+	return data, err
+}
+
+// REGISTER users
+func RegisterUsers(data services.RLUsers) (services.Person, error){
+	sql := `
+	INSERT INTO "users"
+    ("email", "role", "password")
+    VALUES
+    (:email, :role, :password)
+    RETURNING *
+    `
+	returning := services.Person{}
+	rows, err := lib.DbConnection().NamedQuery(sql, data)
+	
+	for rows.Next(){ // rows.Next() => akan mengembalikan boolean.
+		rows.StructScan(&returning)
+	}
+	return returning, err
 }
