@@ -1,4 +1,4 @@
-package modelsUsers
+package models
 
 import (
 	// "github.com/jmoiron/sqlx"
@@ -36,7 +36,9 @@ func CreateUsers(data services.Person) (services.Person, error){
     `
 	returning := services.Person{}
 	rows, err := lib.DbConnection().NamedQuery(sql, data)
-	
+	if err != nil {
+		return returning, err
+	}
 	for rows.Next(){ // rows.Next() => akan mengembalikan boolean.
 		rows.StructScan(&returning)
 	}
@@ -99,6 +101,9 @@ func RegisterUsers(data services.RLUsers) (services.Person, error){
     `
 	returning := services.Person{}
 	rows, err := lib.DbConnection().NamedQuery(sql, data)
+	if err != nil {
+		return returning, err
+	}
 	
 	for rows.Next(){ // rows.Next() => akan mengembalikan boolean.
 		rows.StructScan(&returning)

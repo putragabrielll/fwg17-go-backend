@@ -8,7 +8,7 @@ import (
 
 
 // Untuk users model
-type Person struct {
+type Person struct{
     Id 				int 							`db:"id" json:"id"`
 	FullName 		gonull.Nullable[string] 		`db:"fullName" json:"fullName" form:"fullName"`
 	Email 			string 							`db:"email" json:"email" form:"email"`
@@ -22,7 +22,7 @@ type Person struct {
 }
 
 // Untuk users Register & Login
-type RLUsers struct {
+type RLUsers struct{
 	Email 			string 			`db:"email" json:"email" form:"email" binding:"email"`
 	Role 			string 			`db:"role" json:"role"`
 	Password 		string 			`db:"password" json:"password" form:"password"`
@@ -38,4 +38,16 @@ type ResponseList struct{
 type ResponseBack struct{
 	Success bool		`json:"success"`
 	Message string		`json:"message"`
+}
+
+
+// Untuk forgot password
+type FormReset struct{
+	Id 						int 							`db:"id"`
+	Email 					string 							`db:"email" form:"email" binding:"email"`
+	Otp 					string 							`db:"otp" form:"otp"`
+	Password 				string 							`form:"password"`
+	ConfirmPassword 		string 							`form:"confirmPassword"`
+	CreatedAt 				time.Time 						`db:"createdAt"`
+	UpdatedAt 				gonull.Nullable[time.Time] 		`db:"updatedAt"`
 }

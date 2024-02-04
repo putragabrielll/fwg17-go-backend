@@ -29,10 +29,28 @@ func Utils(err error, ms string, c *gin.Context){
 			Message: ms,
 		})
 		return
+	} else if strings.HasPrefix(err.Error(), "Key: 'FormReset.Email'") { 
+		c.JSON(http.StatusBadRequest, &services.ResponseBack{
+			Success: false,
+			Message: ms,
+		})
+		return
 	} else if strings.HasPrefix(err.Error(), "invalid hash format") { 
 		c.JSON(http.StatusBadRequest, &services.ResponseBack{
 			Success: false,
 			Message: ms,
+		})
+		return
+	} else if strings.HasSuffix(err.Error(), `unique constraint "users_email_key"`) { 
+		c.JSON(http.StatusBadRequest, &services.ResponseBack{
+			Success: false,
+			Message: ms,
+		})
+		return
+	} else if ms == "confirmPassword" {
+		c.JSON(http.StatusBadRequest, &services.ResponseBack{
+			Success: false,
+			Message: "Confirm password does not match!",
 		})
 		return
 	} else {
