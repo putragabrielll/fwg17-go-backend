@@ -1,9 +1,9 @@
 package adminController
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
-
 	"github.com/KEINOS/go-argonize"
 	"github.com/gin-gonic/gin"
 	"github.com/putragabrielll/go-backend/src/helpers"
@@ -14,6 +14,7 @@ import (
 // SELECT ALL USERS
 func ListAllUsers(c *gin.Context){ // contex => c "inisial aja"
 	users, err := models.ListAllUsers()
+	fmt.Println(err)
 	if err != nil {
 		msg := "Users not found"
 		helpers.Utils(err, msg, c) // Error Handler
@@ -49,7 +50,7 @@ func IdUsers(c *gin.Context){
 // CREATE USERS
 func CreateUsers(c *gin.Context){
 	usersData := services.Person{} // menggunakan tipe data yg ada di model users.
-	c.ShouldBind(&usersData) // menggunakan pointer
+	c.ShouldBind(&usersData) // untuk memasukkan data dari form ke struck Person{}
 	// if err != nil {
 	// 	msg := "Invalid Email!"
 	// 	helpers.Utils(err, msg, c) // Error Handle
@@ -79,20 +80,23 @@ func CreateUsers(c *gin.Context){
 // UPDATE USERS
 func UpdateUsers(c *gin.Context){
 	id, _ := strconv.Atoi(c.Param("id"))
-	usersData := services.Person{} // menggunakan tipe data yg ada di model users.
-	c.ShouldBind(&usersData) // menggunakan pointer
+	usersData := services.Person{}
+	c.ShouldBind(&usersData) // // untuk memasukkan data dari form ke struck Person{}
 	// if err != nil {
 	// 	msg := "Invalid Email!"
 	// 	helpers.Utils(err, msg, c) // Error Handle
 	// 	return
 	// }
-	paswdhash := []byte(usersData.Password) // proses hashing password
-	hasedPasswd, _ := argonize.Hash(paswdhash)
+	if usersData.Password != "" {
+		paswdhash := []byte(usersData.Password) // proses hashing password
+		hasedPasswd, _ := argonize.Hash(paswdhash)
+		usersData.Password = hasedPasswd.String()
+	}
 	
-	usersData.Password = hasedPasswd.String()
 	usersData.Id = id // mengarahkan isi dari usersData dengan value "id" di ambil dari id di atas.
 
 	updatedUsers, err := models.UpdateUsers(usersData)
+	fmt.Println(err)
 	if err != nil {
 		msg := "Users not found"
 		helpers.Utils(err, msg, c) // Error Handler

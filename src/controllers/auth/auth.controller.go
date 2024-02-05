@@ -17,7 +17,7 @@ import (
 
 func Login(c *gin.Context){
 	loginauth := services.RLUsers{}
-	err := c.ShouldBind(&loginauth)
+	err := c.ShouldBind(&loginauth) // untuk memasukkan data dari form ke struck Person{}
 	if err != nil {
 		msg := "Format Email not Support!"
 		helpers.Utils(err, msg, c) // Error Handle
@@ -25,7 +25,7 @@ func Login(c *gin.Context){
 	}
 	finduser, err := models.FindUsersByEmail(loginauth.Email)
 	if err != nil {
-		msg := "Users not found"
+		msg := "Email not register!"
 		helpers.Utils(err, msg, c) // Error Handler
 		return
 	}
@@ -49,7 +49,7 @@ func Login(c *gin.Context){
 
 func Register(c *gin.Context){
 	usersData := services.RLUsers{} // menggunakan tipe data yg ada di model users.
-	err := c.ShouldBind(&usersData) // menggunakan pointer
+	err := c.ShouldBind(&usersData) // untuk memasukkan data dari form ke struck Person{}
 	if err != nil {
 		msg := "Format Email not Support!"
 		helpers.Utils(err, msg, c) // Error Handle
@@ -79,7 +79,7 @@ func Register(c *gin.Context){
 
 func ForgotPassword(c *gin.Context){
 	userReset := services.FormReset{}
-	c.ShouldBind(&userReset)
+	c.ShouldBind(&userReset) // untuk memasukkan data dari form ke struck Person{}
 	// if err != nil {
 	// 	msg := "Format Email not Support!"
 	// 	helpers.Utils(err, msg, c) // Error Handle
@@ -108,7 +108,7 @@ func ForgotPassword(c *gin.Context){
 		}
 	} 
 	if userReset.Otp != "" {
-		findEmail, _ := models.FindRPByOTP(userReset.Otp)
+		findEmail, _ := models.FindRPByOTP(userReset.Otp) // pengecekan apakah OTP nya valid
 		if findEmail.Id != 0 {
 			if (userReset.Password == userReset.ConfirmPassword) {
 
