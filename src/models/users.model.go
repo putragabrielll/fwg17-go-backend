@@ -8,14 +8,35 @@ import (
 )
 
 // SELECT * users
-func ListAllUsers() ([]services.PersonNet, error) {
+func ListAllUsers(filter string, sortby string, order string, limit int, offset int) ([]services.PersonNet, error) {
 	// people := []Person{} // V1
     // db.Select(&people, "SELECT * FROM users") // V1
-	
-	sql := `SELECT * FROM "users"`
+
+	sql := `
+	SELECT * 
+	FROM "users"
+	WHERE "fullName" ILIKE $1
+	ORDER BY "`+sortby+`" `+order+`
+	LIMIT $2
+	OFFSET $3
+	`
+	fmtsearch := fmt.Sprintf("%%%v%%", filter)
 	data := []services.PersonNet{}
-	err := lib.DbConnection().Select(&data, sql)
+	err := lib.DbConnection().Select(&data, sql, fmtsearch, limit, offset)
 	return data, err
+}
+
+// Count total data
+func CountAllUsers(filter string) (int, error){
+	var count int
+	sql := `
+	SELECT COUNT("id") AS "counts"
+    FROM "users"
+	WHERE "fullName" ILIKE $1
+	`
+	fmtsearch := fmt.Sprintf("%%%v%%", filter)
+	err := lib.DbConnection().Get(&count, sql, fmtsearch)
+	return count, err
 }
 
 // SELECT users BY id
@@ -59,13 +80,8 @@ func UpdateUsers(data services.Person) (services.Person, error){ // bisa terudda
     WHERE id=:id
     RETURNING *
     `
-	// "fullName"=COALESCE(NULLIF(:fullName,''),"fullName"),
-	// "phoneNumber"=COALESCE(NULLIF(:phoneNumber,''),"phoneNumber"),
-	// "address"=COALESCE(NULLIF(:address,''),"address"),
-	// "password"=COALESCE(NULLIF(:password,''),"password"),
 	returning := services.Person{}
 	rows, err := lib.DbConnection().NamedQuery(sql, data)
-	fmt.Println(data.Password)
 	
 	for rows.Next(){ // rows.Next() => akan mengembalikan boolean.
 		rows.StructScan(&returning)

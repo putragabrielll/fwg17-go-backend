@@ -8,8 +8,8 @@ import (
 
 func productsRouter(rg *gin.RouterGroup){
 	rg.GET("/", adminController.ListAllProducts)
-	// rg.GET("/:id", adminController.IdUsers)
-	// rg.POST("/", adminController.CreateUsers)
-	// rg.PATCH("/:id", adminController.UpdateUsers)
-	// rg.DELETE("/:id", adminController.DeleteUsers)
+	rg.GET("/:id", adminController.IdProducts)
+	rg.POST("/", adminController.CreateProducts)
+	rg.PATCH("/:id", adminController.UpdateProducts)
+	rg.DELETE("/:id", adminController.DeleteProducts)
 }

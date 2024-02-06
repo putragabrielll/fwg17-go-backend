@@ -3,7 +3,6 @@ package helpers
 import (
 	"net/http"
 	"strings"
-
 	"github.com/gin-gonic/gin"
 	"github.com/putragabrielll/go-backend/src/services"
 )
@@ -23,10 +22,22 @@ func Utils(err error, ms string, c *gin.Context){
 			Message: ms,
 		})
 		return
+	} else if strings.HasPrefix(err.Error(), "Key: 'Person.Password'") { 
+		c.JSON(http.StatusBadRequest, &services.ResponseBack{
+			Success: false,
+			Message: "Password not be null!",
+		})
+		return
 	} else if strings.HasPrefix(err.Error(), "Key: 'RLUsers.Email'") { 
 		c.JSON(http.StatusBadRequest, &services.ResponseBack{
 			Success: false,
 			Message: ms,
+		})
+		return
+	} else if strings.HasPrefix(err.Error(), "Key: 'RLUsers.Password'") { 
+		c.JSON(http.StatusBadRequest, &services.ResponseBack{
+			Success: false,
+			Message: "Password not be null!",
 		})
 		return
 	} else if strings.HasPrefix(err.Error(), "Key: 'FormReset.Email'") { 
@@ -51,6 +62,36 @@ func Utils(err error, ms string, c *gin.Context){
 		c.JSON(http.StatusBadRequest, &services.ResponseBack{
 			Success: false,
 			Message: "Confirm password does not match!",
+		})
+		return
+	} else if strings.HasPrefix(err.Error(), "Key: 'Products.Name'") {
+		c.JSON(http.StatusBadRequest, &services.ResponseBack{
+			Success: false,
+			Message: "Name products no be null!",
+		})
+		return
+	} else if strings.HasPrefix(err.Error(), "Key: 'Products.Price'") {
+		c.JSON(http.StatusBadRequest, &services.ResponseBack{
+			Success: false,
+			Message: "Price no be null!",
+		})
+		return
+	} else if strings.HasPrefix(err.Error(), "Key: 'Products.Image'") {
+		c.JSON(http.StatusBadRequest, &services.ResponseBack{
+			Success: false,
+			Message: "Image no be null!",
+		})
+		return
+	} else if strings.HasPrefix(err.Error(), "Key: 'Products.Description'") {
+		c.JSON(http.StatusBadRequest, &services.ResponseBack{
+			Success: false,
+			Message: "Description no be null!",
+		})
+		return
+	} else if strings.HasPrefix(err.Error(), "Key: 'Products.Qty'") {
+		c.JSON(http.StatusBadRequest, &services.ResponseBack{
+			Success: false,
+			Message: "Qty no be null!",
 		})
 		return
 	} else {

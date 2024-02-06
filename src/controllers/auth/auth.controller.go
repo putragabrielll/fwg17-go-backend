@@ -51,7 +51,7 @@ func Register(c *gin.Context){
 	usersData := services.RLUsers{} // menggunakan tipe data yg ada di model users.
 	err := c.ShouldBind(&usersData) // untuk memasukkan data dari form ke struck Person{}
 	if err != nil {
-		msg := "Format Email not Support!"
+		msg := "Invalid Email!"
 		helpers.Utils(err, msg, c) // Error Handle
 		return
 	}

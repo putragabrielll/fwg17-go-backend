@@ -9,11 +9,27 @@ import (
 
 
 //------------ UNIVERSAL ------------
+// Page Info
+type PageInfo struct{
+	CurrentPage	int		`json:"currentPage"`
+	TotalPage	int		`json:"totalPage"`
+	NextPage	int		`json:"nextPage"`
+	PrevPage	int		`json:"prevPage"`
+	TotalData	int		`json:"totalData"`
+}
+
 // Response ALL DATA
+type ResponseAll struct{
+	Success 	bool			`json:"success"`
+	Message 	string			`json:"message"`
+	PageInfo 	PageInfo		`json:"pageInfo"`
+	Results 	interface{}		`json:"results"`
+}
+
 type ResponseList struct{
-	Success bool		`json:"success"`
-	Message string		`json:"message"`
-	Results interface{}	`json:"results"`
+	Success 	bool			`json:"success"`
+	Message 	string			`json:"message"`
+	Results 	interface{}		`json:"results"`
 }
 
 // RESPONSE ERROR
@@ -33,12 +49,12 @@ type ResponseBack struct{
 type Person struct{
     Id 				int 							`db:"id" json:"id"`
 	FullName 		string 							`db:"fullName" json:"fullName" form:"fullName"`
-	Email 			string 							`db:"email" json:"email" form:"email"`
+	Email 			string 							`db:"email" json:"email" form:"email" binding:"email" binding:"required"`
 	PhoneNumber 	string 							`db:"phoneNumber" json:"phoneNumber" form:"phoneNumber"`
 	Address 		string 							`db:"address" json:"address" form:"address"`
 	Picture 		string 							`db:"picture" json:"picture" form:"picture"`
 	Role 			string 							`db:"role" json:"role"`
-	Password 		string 							`db:"password" json:"password" form:"password"`
+	Password 		string 							`db:"password" json:"password" form:"password" binding:"required"`
 	CreatedAt 		time.Time 						`db:"createdAt" json:"createdAt"`
 	UpdatedAt 		gonull.Nullable[time.Time] 		`db:"updatedAt" json:"updatedAt"`
 }
@@ -57,9 +73,9 @@ type PersonNet struct{ // untuk struck respon saja dimana data yg tidak di isi d
 
 // Untuk users Register & Login
 type RLUsers struct{
-	Email 			string 			`db:"email" json:"email" form:"email" binding:"email"`
+	Email 			string 			`db:"email" json:"email" form:"email" binding:"email" binding:"required"`
 	Role 			string 			`db:"role" json:"role"`
-	Password 		string 			`db:"password" json:"password" form:"password"`
+	Password 		string 			`db:"password" json:"password" form:"password" binding:"required"`
 }
 
 // Untuk forgot password
@@ -78,18 +94,46 @@ type FormReset struct{
 
 
 
+
 //------------ PRODUCTS ------------
 // Untuk Products model
 type Products struct{
 	Id 				int 							`db:"id" json:"id"`
+	Name 			string 							`db:"name" json:"name" form:"name" binding:"required"`
+	Price 			int64 							`db:"price" json:"price" form:"price" binding:"required"`
+	Image 			*string 		`db:"image" json:"image" form:"image" binding:"required"`
+	Description 	*string 						`db:"description" json:"description" form:"description" binding:"required"`
+	Discount 		*int32 							`db:"discount" json:"discount" form:"discount" binding:"required"`
+	IsRecommended 	*bool			`db:"isRecommended" json:"isRecommended" form:"isRecommended"`
+	Qty 			int64 							`db:"qty" json:"qty" form:"qty" binding:"required"`
+	IsActive 		bool 							`db:"isActive" json:"isActive" form:"isActive"`
+	CreatedAt 		time.Time 						`db:"createdAt" json:"createdAt"`
+	UpdatedAt 		gonull.Nullable[time.Time] 		`db:"updatedAt" json:"updatedAt"`
+}
+type ProductsNet struct{
+	Id 				int 							`db:"id" json:"id"`
 	Name 			string 							`db:"name" json:"name" form:"name"`
 	Price 			int64 							`db:"price" json:"price" form:"price"`
 	Image 			gonull.Nullable[string] 		`db:"image" json:"image" form:"image"`
-	Description 	string 							`db:"description" json:"description" form:"description"`
-	Discount 		int32 							`db:"discount" json:"discount" form:"discount"`
+	Description 	gonull.Nullable[string] 		`db:"description" json:"description" form:"description"`
+	Discount 		int64 							`db:"discount" json:"discount" form:"discount"`
 	IsRecommended 	gonull.Nullable[bool] 			`db:"isRecommended" json:"isRecommended" form:"isRecommended"`
 	Qty 			int64 							`db:"qty" json:"qty" form:"qty"`
 	IsActive 		gonull.Nullable[bool] 			`db:"isActive" json:"isActive" form:"isActive"`
+	CreatedAt 		time.Time 						`db:"createdAt" json:"createdAt"`
+	UpdatedAt 		gonull.Nullable[time.Time] 		`db:"updatedAt" json:"updatedAt"`
+}
+
+
+
+
+
+
+
+// ------------ TAGS ------------
+type Tags struct{
+	Id 				int 							`db:"id" json:"id"`
+	Name 			string 							`db:"name" json:"name" form:"name"`
 	CreatedAt 		time.Time 						`db:"createdAt" json:"createdAt"`
 	UpdatedAt 		gonull.Nullable[time.Time] 		`db:"updatedAt" json:"updatedAt"`
 }
