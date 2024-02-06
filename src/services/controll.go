@@ -208,6 +208,19 @@ type PvNet struct {
 
 
 
+// ------------ CATEGORIES ------------
+type Categories struct{
+	Id            int                        `db:"id" json:"id"`
+	Name          string                     `db:"name" json:"name" form:"name" binding:"required"`
+	CreatedAt     time.Time                  `db:"createdAt" json:"createdAt"`
+	UpdatedAt     gonull.Nullable[time.Time] `db:"updatedAt" json:"updatedAt"`
+}
+
+
+
+
+
+
 
 // ------------ TAGS ------------
 type Tags struct {
