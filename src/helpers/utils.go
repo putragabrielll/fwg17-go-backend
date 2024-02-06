@@ -124,6 +124,18 @@ func Utils(err error, ms string, c *gin.Context){
 			Message: "Minimum Amount not be null!",
 		})
 		return
+	} else if strings.HasPrefix(err.Error(), "Key: 'Pv.Name'") {
+		c.JSON(http.StatusBadRequest, &services.ResponseBack{
+			Success: false,
+			Message: "Variant name not be null!",
+		})
+		return
+	} else if strings.HasPrefix(err.Error(), "Key: 'Pv.AdditionalPrice'") {
+		c.JSON(http.StatusBadRequest, &services.ResponseBack{
+			Success: false,
+			Message: "Additional Price not be null!",
+		})
+		return
 	} else {
 		c.JSON(http.StatusInternalServerError, &services.ResponseBack{
 			Success: false,

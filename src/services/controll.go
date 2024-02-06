@@ -187,6 +187,28 @@ type PsNet struct {
 
 
 
+// ------------ PRODUCT VARIANT ------------
+type Pv struct {
+	Id              int                        `db:"id" json:"id"`
+	Name            string                     `db:"name" json:"name" form:"name" binding:"required"`
+	AdditionalPrice int64                      `db:"additionalPrice" json:"additionalPrice" form:"additionalPrice" binding:"required"`
+	CreatedAt       time.Time                  `db:"createdAt" json:"createdAt"`
+	UpdatedAt       gonull.Nullable[time.Time] `db:"updatedAt" json:"updatedAt"`
+}
+type PvNet struct {
+	Id              int                        `db:"id" json:"id"`
+	Name            string                     `db:"name" json:"name"`
+	AdditionalPrice int64                      `db:"additionalPrice" json:"additionalPrice"`
+	CreatedAt       time.Time                  `db:"createdAt" json:"createdAt"`
+	UpdatedAt       gonull.Nullable[time.Time] `db:"updatedAt" json:"updatedAt"`
+}
+
+
+
+
+
+
+
 // ------------ TAGS ------------
 type Tags struct {
 	Id        int                        `db:"id" json:"id"`

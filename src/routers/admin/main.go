@@ -7,4 +7,5 @@ func AdminRouter(r *gin.RouterGroup){
 	productsRouter(r.Group("/products"))
 	promoRouters(r.Group("/promo"))
 	psRouters(r.Group("/product-size"))
+	pvRouters(r.Group("/product-variant"))
 }
