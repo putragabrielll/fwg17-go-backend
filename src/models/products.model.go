@@ -79,10 +79,10 @@ func UpdateProducts(data services.Products) (services.ProductsNet, error){
 	returning := services.ProductsNet{}
 	rows, err := lib.DbConnection().NamedQuery(sql, data)
 
-	dataaja := data.IsRecommended
-	dataaja2 := *dataaja
-	fmt.Println(dataaja2)
-	fmt.Println(data.IsActive)
+	// dataaja := data.IsRecommended
+	// dataaja2 := *dataaja
+	// fmt.Println(dataaja2)
+	// fmt.Println(data.IsActive)
 	
 	for rows.Next(){
 		rows.StructScan(&returning)
