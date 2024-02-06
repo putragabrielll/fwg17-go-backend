@@ -67,31 +67,61 @@ func Utils(err error, ms string, c *gin.Context){
 	} else if strings.HasPrefix(err.Error(), "Key: 'Products.Name'") {
 		c.JSON(http.StatusBadRequest, &services.ResponseBack{
 			Success: false,
-			Message: "Name products no be null!",
+			Message: "Name products not be null!",
 		})
 		return
 	} else if strings.HasPrefix(err.Error(), "Key: 'Products.Price'") {
 		c.JSON(http.StatusBadRequest, &services.ResponseBack{
 			Success: false,
-			Message: "Price no be null!",
+			Message: "Price not be null!",
 		})
 		return
 	} else if strings.HasPrefix(err.Error(), "Key: 'Products.Image'") {
 		c.JSON(http.StatusBadRequest, &services.ResponseBack{
 			Success: false,
-			Message: "Image no be null!",
+			Message: "Image not be null!",
 		})
 		return
 	} else if strings.HasPrefix(err.Error(), "Key: 'Products.Description'") {
 		c.JSON(http.StatusBadRequest, &services.ResponseBack{
 			Success: false,
-			Message: "Description no be null!",
+			Message: "Description not be null!",
 		})
 		return
 	} else if strings.HasPrefix(err.Error(), "Key: 'Products.Qty'") {
 		c.JSON(http.StatusBadRequest, &services.ResponseBack{
 			Success: false,
-			Message: "Qty no be null!",
+			Message: "Qty not be null!",
+		})
+		return
+	} else if strings.HasPrefix(err.Error(), "Key: 'Promo.Name'") {
+		c.JSON(http.StatusBadRequest, &services.ResponseBack{
+			Success: false,
+			Message: "Promo Name not be null!",
+		})
+		return
+	} else if strings.HasPrefix(err.Error(), "Key: 'Promo.Code'") {
+		c.JSON(http.StatusBadRequest, &services.ResponseBack{
+			Success: false,
+			Message: "Promo Code not be null!",
+		})
+		return
+	} else if strings.HasPrefix(err.Error(), "Key: 'Promo.Percentage'") {
+		c.JSON(http.StatusBadRequest, &services.ResponseBack{
+			Success: false,
+			Message: "Percentage not be null!",
+		})
+		return
+	} else if strings.HasPrefix(err.Error(), "Key: 'Promo.MaximumPromo'") {
+		c.JSON(http.StatusBadRequest, &services.ResponseBack{
+			Success: false,
+			Message: "Maximum Promo not be null!",
+		})
+		return
+	} else if strings.HasPrefix(err.Error(), "Key: 'Promo.MinimumAmount'") {
+		c.JSON(http.StatusBadRequest, &services.ResponseBack{
+			Success: false,
+			Message: "Minimum Amount not be null!",
 		})
 		return
 	} else {
