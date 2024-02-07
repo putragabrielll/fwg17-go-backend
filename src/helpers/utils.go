@@ -148,6 +148,42 @@ func Utils(err error, ms string, c *gin.Context){
 			Message: "Tags Id not be null!",
 		})
 		return
+	} else if strings.HasSuffix(err.Error(), `violates foreign key constraint "productTags_productId_fkey"`) {
+		c.JSON(http.StatusBadRequest, &services.ResponseBack{
+			Success: false,
+			Message: "Product Id is not regis!",
+		})
+		return
+	} else if strings.HasSuffix(err.Error(), `violates foreign key constraint "productTags_tagsId_fkey"`) {
+		c.JSON(http.StatusBadRequest, &services.ResponseBack{
+			Success: false,
+			Message: "Tags Id is not regis!",
+		})
+		return
+	} else if strings.HasPrefix(err.Error(), "Key: 'Pro_Cate.ProductId'") {
+		c.JSON(http.StatusBadRequest, &services.ResponseBack{
+			Success: false,
+			Message: "Product Id not be null!",
+		})
+		return
+	} else if strings.HasPrefix(err.Error(), "Key: 'Pro_Cate.CategoriesId'") {
+		c.JSON(http.StatusBadRequest, &services.ResponseBack{
+			Success: false,
+			Message: "Categories Id not be null!",
+		})
+		return
+	} else if strings.HasSuffix(err.Error(), `violates foreign key constraint "productCategories_productId_fkey"`) {
+		c.JSON(http.StatusBadRequest, &services.ResponseBack{
+			Success: false,
+			Message: "Product Id is not regis!",
+		})
+		return
+	} else if strings.HasSuffix(err.Error(), `violates foreign key constraint "productCategories_categoriesId_fkey"`) {
+		c.JSON(http.StatusBadRequest, &services.ResponseBack{
+			Success: false,
+			Message: "Categories Id is not regis!",
+		})
+		return
 	} else {
 		c.JSON(http.StatusInternalServerError, &services.ResponseBack{
 			Success: false,

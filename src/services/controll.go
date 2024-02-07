@@ -251,3 +251,25 @@ type Pro_TagsNet struct {
 	CreatedAt 		time.Time                  	`db:"createdAt" json:"createdAt"`
 	UpdatedAt 		gonull.Nullable[time.Time] 	`db:"updatedAt" json:"updatedAt"`
 }
+
+
+
+
+
+
+
+// ------------ PRODUCT CATEGORIES ------------
+type Pro_Cate struct {
+	Id        		int                        	`db:"id"`
+	ProductId      	int                     	`db:"productId" form:"productId" binding:"required"`
+	CategoriesId    int                     	`db:"categoriesId" form:"categoriesId" binding:"required"`
+	CreatedAt 		time.Time                  	`db:"createdAt"`
+	UpdatedAt 		gonull.Nullable[time.Time] 	`db:"updatedAt"`
+}
+type Pro_CateNet struct {
+	Id        			int                        	`db:"id" json:"id"`
+	ProductName      	string                     	`db:"namaProduct" json:"productName"`
+	CategoriesName    	string                     	`db:"namaCategories" json:"categoriesName"`
+	CreatedAt 			time.Time                  	`db:"createdAt"`
+	UpdatedAt 			gonull.Nullable[time.Time] 	`db:"updatedAt"`
+}

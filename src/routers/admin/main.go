@@ -11,4 +11,5 @@ func AdminRouter(r *gin.RouterGroup){
 	categoriesRouters(r.Group("/categories"))
 	tagRouters(r.Group("/tags"))
 	PTRouters(r.Group("/product-tags"))
+	PCRouters(r.Group("/product-categories"))
 }

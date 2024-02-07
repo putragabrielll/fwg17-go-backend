@@ -1,19 +1,18 @@
 package adminController
 
 import (
-	"fmt"
 	"math"
 	"net/http"
 	"strconv"
-
 	"github.com/gin-gonic/gin"
 	"github.com/putragabrielll/go-backend/src/helpers"
 	"github.com/putragabrielll/go-backend/src/models"
 	"github.com/putragabrielll/go-backend/src/services"
 )
 
-// SELECT ALL PRODUCT TAGS
-func ListAllPT(c *gin.Context){
+
+// SELECT ALL PRODUCT CATEGORIES
+func ListAllPC(c *gin.Context){
 	filterby := c.DefaultQuery("filterby", "product")
 	filter := c.DefaultQuery("filter", "")
 	page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
@@ -22,113 +21,117 @@ func ListAllPT(c *gin.Context){
 	limit, _ := strconv.Atoi(c.DefaultQuery("limit", "6"))
 	offset := (page - 1) * limit
 
-	countData, _ := models.Countpt(filterby, filter)
-	page_total := math.Ceil(float64(countData)/float64(limit))
+	countData, _ := models.Countpc(filterby, filter)
+	page_total := math.Ceil(float64(countData) / float64(limit))
 	page_next := page + 1
 	if !(page_next <= int(page_total)) {
 		page_next = int(0)
 	}
 	page_prev := page - 1
 
-	productTags, err := models.ListAllpt(filterby, filter, sortby, order, limit, offset)
+	productCate, err := models.ListAllpc(filterby, filter, sortby, order, limit, offset)
 	if err != nil {
 		msg := "Products tags not found"
 		helpers.Utils(err, msg, c) // Error Handler
 		return
 	}
-	
+
 	c.JSON(http.StatusOK, &services.ResponseAll{
 		Success: true,
 		Message: "List all products tags!",
 		PageInfo: services.PageInfo{
 			CurrentPage: page,
-			TotalPage: int(page_total),
-			NextPage: page_next,
-			PrevPage: page_prev,
-			TotalData: countData,
+			TotalPage:   int(page_total),
+			NextPage:    page_next,
+			PrevPage:    page_prev,
+			TotalData:   countData,
 		},
-		Results: productTags,
+		Results: productCate,
 	})
 }
 
 
-// GET PRODUCT TAGS BY id
-func IdPT(c *gin.Context){
+// GET PRODUCT CATEGORIES BY id
+func IdPC(c *gin.Context){
 	id, _ := strconv.Atoi(c.Param("id"))
 	ptData, err := models.FindPT(id)
 	if err != nil {
-		msg := "Product tags not found!"
+		msg := "Product categories not found!"
 		helpers.Utils(err, msg, c) // Error Handler
 		return
 	}
 
 	c.JSON(http.StatusOK, &services.ResponseList{
 		Success: true,
-		Message: "Detail product tags!",
+		Message: "Detail product categories!",
 		Results: ptData,
 	})
 }
 
 
-// CREATE PRODUCT TAGS
-func CreatePT(c *gin.Context){
-	ptData := services.Pro_Tags{}
-	err := c.ShouldBind(&ptData)
+// CREATE PRODUCT CATEGORIES
+func CreatePC(c *gin.Context){
+	pcData := services.Pro_Cate{}
+	err := c.ShouldBind(&pcData)
 	if err != nil {
 		msg := "Data not be null!"
-		helpers.Utils(err, msg, c)
+		helpers.Utils(err, msg, c) // Error Handle
 		return
 	}
-	
-	createdpt, err := models.CreatePT(ptData)
-	fmt.Println(err)
+
+	createdpc, err := models.CreatePC(pcData)
 	if err != nil {
 		msg := "Data not be null!"
-		helpers.Utils(err, msg, c)
+		helpers.Utils(err, msg, c) // Error Handle
 		return
 	}
 	c.JSON(http.StatusOK, &services.ResponseList{
 		Success: true,
 		Message: "Create product tags successfully!",
-		Results: createdpt,
+		Results: createdpc,
 	})
 }
 
 
-// UPDATE PRODUCT TAGS
-func UpdatePT(c *gin.Context){
+// UPDATE PRODUCT CATEGORIES
+func UpdatePC(c *gin.Context){
 	id, _ := strconv.Atoi(c.Param("id"))
-	ptsData := services.Pro_Tags{}
-	err := c.ShouldBind(&ptsData)
+	pcData := services.Pro_Cate{}
+	err := c.ShouldBind(&pcData)
 	if err != nil {
 		msg := "Data not be null!"
 		helpers.Utils(err, msg, c)
 		return
 	}
-	ptsData.Id = id
+	pcData.Id = id
 
-	updatedPT, _ := models.UpdatePT(ptsData)
+	updatedPC, err := models.UpdatePC(pcData)
+	if err != nil {
+		msg := "Data not be null!"
+		helpers.Utils(err, msg, c) // Error Handle
+		return
+	}
 	c.JSON(http.StatusOK, &services.ResponseList{
 		Success: true,
 		Message: "Update product tags successfully!",
-		Results: updatedPT,
+		Results: updatedPC,
 	})
 }
 
 
-// DELETE PRODUCT TAGS
-func DeletePT(c *gin.Context){
+// DELETE PRODUCT CATEGORIES
+func DeletePC(c *gin.Context){
 	id, _ := strconv.Atoi(c.Param("id"))
-	ptData, err := models.DeletePT(id)
+	pcData, err := models.DeletePC(id)
 	if err != nil {
-		msg := "Product tags not found!"
+		msg := "Product categories not found!"
 		helpers.Utils(err, msg, c) // Error Handler
 		return
 	}
 
 	c.JSON(http.StatusOK, &services.ResponseList{
 		Success: true,
-		Message: "Delete product tags successfully!",
-		Results: ptData,
+		Message: "Delete product categories successfully!",
+		Results: pcData,
 	})
 }

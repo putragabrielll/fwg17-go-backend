@@ -73,6 +73,9 @@ func CreatePT(data services.Pro_Tags) (services.Pro_Tags, error){
     `
 	returning := services.Pro_Tags{}
 	rows, err := lib.DbConnection().NamedQuery(sql, data)
+	if err != nil {
+		return returning, err
+	}
 	for rows.Next() {
 		rows.StructScan(&returning)
 	}
