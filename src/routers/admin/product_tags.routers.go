@@ -8,8 +8,8 @@ import (
 
 func PTRouters(rg *gin.RouterGroup){
 	rg.GET("/", adminController.ListAllPT)
-	// rg.GET("/:id", adminController.IdCategories)
-	// rg.POST("/", adminController.CreateCTGR)
-	// rg.PATCH("/:id", adminController.UpdateCTGR)
-	// rg.DELETE("/:id", adminController.DeleteCTGR)
+	rg.GET("/:id", adminController.IdPT)
+	rg.POST("/", adminController.CreatePT)
+	rg.PATCH("/:id", adminController.UpdatePT)
+	rg.DELETE("/:id", adminController.DeletePT)
 }

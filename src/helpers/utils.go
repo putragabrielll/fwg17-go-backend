@@ -136,6 +136,18 @@ func Utils(err error, ms string, c *gin.Context){
 			Message: "Additional Price not be null!",
 		})
 		return
+	} else if strings.HasPrefix(err.Error(), "Key: 'Pro_Tags.ProductId'") {
+		c.JSON(http.StatusBadRequest, &services.ResponseBack{
+			Success: false,
+			Message: "Product Id not be null!",
+		})
+		return
+	} else if strings.HasPrefix(err.Error(), "Key: 'Pro_Tags.TagsId'") {
+		c.JSON(http.StatusBadRequest, &services.ResponseBack{
+			Success: false,
+			Message: "Tags Id not be null!",
+		})
+		return
 	} else {
 		c.JSON(http.StatusInternalServerError, &services.ResponseBack{
 			Success: false,

@@ -111,7 +111,7 @@ func UpdateCTGR(c *gin.Context){
 // DELETE CATEGORIES
 func DeleteCTGR(c *gin.Context){
 	id, _ := strconv.Atoi(c.Param("id"))
-	users, err := models.DeleteCat(id)
+	cateData, err := models.DeleteCat(id)
 	if err != nil {
 		msg := "Categories not found!"
 		helpers.Utils(err, msg, c) // Error Handler
@@ -121,6 +121,6 @@ func DeleteCTGR(c *gin.Context){
 	c.JSON(http.StatusOK, &services.ResponseList{
 		Success: true,
 		Message: "Delete categories successfully!",
-		Results: users,
+		Results: cateData,
 	})
 }

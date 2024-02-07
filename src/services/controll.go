@@ -238,8 +238,16 @@ type Tags struct {
 
 // ------------ PRODUCT TAGS ------------
 type Pro_Tags struct {
-	Id        int                        `db:"id" json:"id"`
-	Name      string                     `db:"name" json:"name" form:"name"`
-	CreatedAt time.Time                  `db:"createdAt" json:"createdAt"`
-	UpdatedAt gonull.Nullable[time.Time] `db:"updatedAt" json:"updatedAt"`
+	Id        		int                        	`db:"id"`
+	ProductId      	int                     	`db:"productId" form:"productId" binding:"required"`
+	TagsId      	int                     	`db:"tagsId" form:"tagsId" binding:"required"`
+	CreatedAt 		time.Time                  	`db:"createdAt"`
+	UpdatedAt 		gonull.Nullable[time.Time] 	`db:"updatedAt"`
+}
+type Pro_TagsNet struct {
+	Id        		int                        	`db:"id" json:"id"`
+	ProductName     string                     	`db:"namaProduct" json:"productName"`
+	TagsName      	string                     	`db:"namaTags" json:"tagsName"`
+	CreatedAt 		time.Time                  	`db:"createdAt" json:"createdAt"`
+	UpdatedAt 		gonull.Nullable[time.Time] 	`db:"updatedAt" json:"updatedAt"`
 }
