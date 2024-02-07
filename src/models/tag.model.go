@@ -6,28 +6,28 @@ import (
 	"github.com/putragabrielll/go-backend/src/services"
 )
 
-// SELECT * categories
-func ListAllCtgr(filter string, sortby string, order string, limit int, offset int) ([]services.Categories, error) {
+// SELECT * tags
+func ListAllTags(filter string, sortby string, order string, limit int, offset int) ([]services.Tags, error){
 	sql := `
 	SELECT * 
-	FROM "categories"
+	FROM "tags"
 	WHERE "name" ILIKE $1
 	ORDER BY "` + sortby + `" ` + order + `
 	LIMIT $2
 	OFFSET $3
 	`
 	fmtsearch := fmt.Sprintf("%%%v%%", filter)
-	data := []services.Categories{}
+	data := []services.Tags{}
 	err := lib.DbConnection().Select(&data, sql, fmtsearch, limit, offset)
 	return data, err
 }
 
 // Count total data
-func CountCategories(filter string) (int, error) {
+func CountTags(filter string) (int, error){
 	var count int
 	sql := `
 	SELECT COUNT("id") AS "counts"
-    FROM "categories"
+    FROM "tags"
 	WHERE "name" ILIKE $1
 	`
 	fmtsearch := fmt.Sprintf("%%%v%%", filter)
@@ -35,24 +35,24 @@ func CountCategories(filter string) (int, error) {
 	return count, err
 }
 
-// SELECT categories BY id
-func FindCategories(id int) (services.Categories, error) {
-	sql := `SELECT * FROM "categories" WHERE "id"=$1`
-	data := services.Categories{}
+// SELECT tags BY id
+func FindTags(id int) (services.Tags, error){
+	sql := `SELECT * FROM "tags" WHERE "id"=$1`
+	data := services.Tags{}
 	err := lib.DbConnection().Get(&data, sql, id)
 	return data, err
 }
 
-// CREATE categories
-func CreateCat(data services.Categories) (services.Categories, error) {
+// CREATE tags
+func CreateTags(data services.Tags) (services.Tags, error){
 	sql := `
-	INSERT INTO "categories"
+	INSERT INTO "tags"
     ("name")
     VALUES
     (:name)
     RETURNING *
     `
-	returning := services.Categories{}
+	returning := services.Tags{}
 	rows, err := lib.DbConnection().NamedQuery(sql, data)
 	for rows.Next() {
 		rows.StructScan(&returning)
@@ -60,16 +60,16 @@ func CreateCat(data services.Categories) (services.Categories, error) {
 	return returning, err
 }
 
-// UPDATE categories
-func UpdateCat(data services.Categories) (services.Categories, error) {
+// UPDATE tags
+func UpdateTags(data services.Tags) (services.Tags, error){
 	sql := `
-	UPDATE "categories" SET 
+	UPDATE "tags" SET 
 	"name"=COALESCE(NULLIF(:name,''),"name"),
 	"updatedAt"=NOW()
     WHERE id=:id
     RETURNING *
     `
-	returning := services.Categories{}
+	returning := services.Tags{}
 	rows, err := lib.DbConnection().NamedQuery(sql, data)
 	for rows.Next() {
 		rows.StructScan(&returning)
@@ -77,10 +77,10 @@ func UpdateCat(data services.Categories) (services.Categories, error) {
 	return returning, err
 }
 
-// DELETE categories
-func DeleteCat(id int) (services.Categories, error){
-	sql := `DELETE FROM "categories" WHERE "id"= $1 RETURNING *`
-	data := services.Categories{}
-	err := lib.DbConnection().Get(&data, sql, id) // id diambil dari parameter id.
+// DELETE tags
+func DeleteTags(id int) (services.Tags, error){
+	sql := `DELETE FROM "tags" WHERE "id"= $1 RETURNING *`
+	data := services.Tags{}
+	err := lib.DbConnection().Get(&data, sql, id)
 	return data, err
 }

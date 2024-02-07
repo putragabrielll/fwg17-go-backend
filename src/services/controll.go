@@ -229,3 +229,17 @@ type Tags struct {
 	CreatedAt time.Time                  `db:"createdAt" json:"createdAt"`
 	UpdatedAt gonull.Nullable[time.Time] `db:"updatedAt" json:"updatedAt"`
 }
+
+
+
+
+
+
+
+// ------------ PRODUCT TAGS ------------
+type Pro_Tags struct {
+	Id        int                        `db:"id" json:"id"`
+	Name      string                     `db:"name" json:"name" form:"name"`
+	CreatedAt time.Time                  `db:"createdAt" json:"createdAt"`
+	UpdatedAt gonull.Nullable[time.Time] `db:"updatedAt" json:"updatedAt"`
+}
