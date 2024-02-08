@@ -13,4 +13,6 @@ func AdminRouter(r *gin.RouterGroup) {
 	PTRouters(r.Group("/product-tags"))
 	PCRouters(r.Group("/product-categories"))
 	PRRouters(r.Group("/product-ratings"))
+	ordersRouters(r.Group("/orders"))
+	ordersDetailsRouters(r.Group("/order-details"))
 }

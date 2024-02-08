@@ -299,3 +299,69 @@ type Pro_RateNet struct {
 	CreatedAt 		time.Time                  	`db:"createdAt" json:"createdAt"`
 	UpdatedAt 		gonull.Nullable[time.Time] 	`db:"updatedAt" json:"updatedAt"`
 }
+
+
+
+
+
+
+
+// ------------ PRODUCT ORDERS ------------
+type Orders struct {
+	Id        			int                        	`db:"id"`
+	UsersId    			int                     	`db:"usersId" form:"usersId" binding:"required"`
+	OrderNumber			string						`db:"orderNumber" form:"orderNumber" binding:"required"`
+	PromoId				gonull.Nullable[int]		`db:"promoId" form:"promoId"`
+	Total         		int64                     	`db:"total" form:"total" binding:"required"`			
+	TaxAmount			int64						`db:"taxAmount"`
+	Status				string						`db:"status"`
+	DeliveryAddress		string						`db:"deliveryAddress" form:"deliveryAddress"`
+	FullName			string						`db:"fullName" form:"fullName"`
+	Email				string						`db:"email"`
+	CreatedAt 			time.Time                  	`db:"createdAt"`
+	UpdatedAt 			gonull.Nullable[time.Time] 	`db:"updatedAt"`
+}
+type OrdersNet struct {
+	Id        			int                        	`db:"id" json:"id"`
+	UserName    		string                     	`db:"userName" json:"userName"`
+	OrderNumber			string						`db:"orderNumber" json:"orderNumber"`
+	PromoName			gonull.Nullable[string]		`db:"promoName" json:"promoName"`
+	Total         		int64                     	`db:"total" json:"total"`
+	TaxAmount			int64						`db:"taxAmount" json:"taxAmount"`
+	Status				string						`db:"status" json:"status"`
+	DeliveryAddress		string						`db:"deliveryAddress" json:"deliveryAddress"`
+	FullName			string						`db:"fullName" json:"fullName"`
+	Email				string						`db:"email" json:"email"`
+	CreatedAt 			time.Time                  	`db:"createdAt" json:"createdAt"`
+	UpdatedAt 			gonull.Nullable[time.Time] 	`db:"updatedAt" json:"updatedAt"`
+}
+
+
+
+
+
+
+
+// ------------ PRODUCT ORDERS ------------
+type OrdersDetails struct {
+	Id        			int                        	`db:"id"`
+	OrdersId    		int                     	`db:"ordersId" form:"ordersId" binding:"required"`
+	ProductId    		int                     	`db:"productId" form:"productId" binding:"required"`
+	ProductSizeId    	int                     	`db:"productSizeId" form:"productSizeId" binding:"required"`
+	ProductVariantId    int                     	`db:"productVariantId" form:"productVariantId" binding:"required"`
+	Qty    				int                     	`db:"qty" form:"qty" binding:"required"`
+	SubTotal    		int                     	`db:"subTotal" form:"subTotal"`
+	CreatedAt 			time.Time                  	`db:"createdAt"`
+	UpdatedAt 			gonull.Nullable[time.Time] 	`db:"updatedAt"`
+}
+type OrdersDetailsNet struct {
+	Id        			int                        	`db:"id" json:"id"`
+	OrdersNumber    	string                     	`db:"orderNumber" json:"orderNumber"`
+	ProductName    		string                     	`db:"namaProduct" json:"namaProduct"`
+	ProductSize    		string                     	`db:"size" json:"size"`
+	ProductVariant    	string                     	`db:"name" json:"variant"`
+	Qty    				int                     	`db:"qty" json:"qty"`
+	SubTotal    		int                     	`db:"subTotal" json:"subTotal"`
+	CreatedAt 			time.Time                  	`db:"createdAt" json:"createdAt"`
+	UpdatedAt 			gonull.Nullable[time.Time] 	`db:"updatedAt" json:"updatedAt"`
+}
