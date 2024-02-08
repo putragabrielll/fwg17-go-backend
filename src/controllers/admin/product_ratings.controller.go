@@ -11,9 +11,8 @@ import (
 	"github.com/putragabrielll/go-backend/src/services"
 )
 
-// SELECT ALL PRODUCT TAGS
-func ListAllPT(c *gin.Context){
-	filterby := c.DefaultQuery("filterby", "product")
+// SELECT ALL PRODUCT RATINGS
+func ListAllPR(c *gin.Context){
 	filter := c.DefaultQuery("filter", "")
 	page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
 	sortby := c.DefaultQuery("sortby", "product")
@@ -21,7 +20,7 @@ func ListAllPT(c *gin.Context){
 	limit, _ := strconv.Atoi(c.DefaultQuery("limit", "6"))
 	offset := (page - 1) * limit
 
-	countData, _ := models.Countpt(filterby, filter)
+	countData, _ := models.Countpr(filter)
 	page_total := math.Ceil(float64(countData)/float64(limit))
 	page_next := page + 1
 	if !(page_next <= int(page_total)) {
@@ -29,7 +28,7 @@ func ListAllPT(c *gin.Context){
 	}
 	page_prev := page - 1
 
-	productTags, err := models.ListAllpt(filterby, filter, sortby, order, limit, offset)
+	productTags, err := models.ListAllpr(filter, sortby, order, limit, offset)
 	if err != nil {
 		msg := "Products tags not found"
 		helpers.Utils(err, msg, c) // Error Handler
@@ -51,35 +50,35 @@ func ListAllPT(c *gin.Context){
 }
 
 
-// GET PRODUCT TAGS BY id
-func IdPT(c *gin.Context){
+// GET PRODUCT RATINGS BY id
+func IdPR(c *gin.Context){
 	id, _ := strconv.Atoi(c.Param("id"))
-	ptData, err := models.FindPT(id)
+	ptData, err := models.Findpr(id)
 	if err != nil {
-		msg := "Product tags not found!"
+		msg := "Product ratings not found!"
 		helpers.Utils(err, msg, c) // Error Handler
 		return
 	}
 
 	c.JSON(http.StatusOK, &services.ResponseList{
 		Success: true,
-		Message: "Detail product tags!",
+		Message: "Detail product ratings!",
 		Results: ptData,
 	})
 }
 
 
-// CREATE PRODUCT TAGS
-func CreatePT(c *gin.Context){
-	ptData := services.Pro_Tags{}
-	err := c.ShouldBind(&ptData)
+// CREATE PRODUCT RATINGS
+func CreatePR(c *gin.Context){
+	prData := services.Pro_Rate{}
+	err := c.ShouldBind(&prData)
 	if err != nil {
 		msg := "Data not be null!"
 		helpers.Utils(err, msg, c)
 		return
 	}
 	
-	createdpt, err := models.CreatePT(ptData)
+	createdpt, err := models.Createpr(prData)
 	fmt.Println(err)
 	if err != nil {
 		msg := "Data not be null!"
@@ -88,46 +87,50 @@ func CreatePT(c *gin.Context){
 	}
 	c.JSON(http.StatusOK, &services.ResponseList{
 		Success: true,
-		Message: "Create product tags successfully!",
+		Message: "Create product ratings successfully!",
 		Results: createdpt,
 	})
 }
 
 
-// UPDATE PRODUCT TAGS
-func UpdatePT(c *gin.Context){
+// UPDATE PRODUCT RATINGS
+func UpdatePR(c *gin.Context){
 	id, _ := strconv.Atoi(c.Param("id"))
-	ptsData := services.Pro_Tags{}
-	err := c.ShouldBind(&ptsData)
+	prData := services.Pro_Rate{}
+	err := c.ShouldBind(&prData)
 	if err != nil {
 		msg := "Data not be null!"
 		helpers.Utils(err, msg, c)
 		return
 	}
-	ptsData.Id = id
+	prData.Id = id
 
-	updatedPT, _ := models.UpdatePT(ptsData)
+	updatedPT, err := models.Updatepr(prData)
+	if err != nil {
+		msg := "Data not be null!"
+		helpers.Utils(err, msg, c)
+		return
+	}
 	c.JSON(http.StatusOK, &services.ResponseList{
 		Success: true,
-		Message: "Update product tags successfully!",
+		Message: "Update product ratings successfully!",
 		Results: updatedPT,
 	})
 }
 
-
-// DELETE PRODUCT TAGS
-func DeletePT(c *gin.Context){
+// DELETE PRODUCT RATINGS
+func DeletePR(c *gin.Context){
 	id, _ := strconv.Atoi(c.Param("id"))
-	ptData, err := models.DeletePT(id)
+	ptData, err := models.Deletepr(id)
 	if err != nil {
-		msg := "Product tags not found!"
+		msg := "Product ratings not found!"
 		helpers.Utils(err, msg, c) // Error Handler
 		return
 	}
 
 	c.JSON(http.StatusOK, &services.ResponseList{
 		Success: true,
-		Message: "Delete product tags successfully!",
+		Message: "Delete product ratings successfully!",
 		Results: ptData,
 	})
 }

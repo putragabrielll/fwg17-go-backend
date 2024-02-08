@@ -2,7 +2,7 @@ package adminRouters
 
 import "github.com/gin-gonic/gin"
 
-func AdminRouter(r *gin.RouterGroup){
+func AdminRouter(r *gin.RouterGroup) {
 	usersRouter(r.Group("/users"))
 	productsRouter(r.Group("/products"))
 	promoRouters(r.Group("/promo"))
@@ -12,4 +12,5 @@ func AdminRouter(r *gin.RouterGroup){
 	tagRouters(r.Group("/tags"))
 	PTRouters(r.Group("/product-tags"))
 	PCRouters(r.Group("/product-categories"))
+	PRRouters(r.Group("/product-ratings"))
 }

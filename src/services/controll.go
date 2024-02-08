@@ -270,6 +270,32 @@ type Pro_CateNet struct {
 	Id        			int                        	`db:"id" json:"id"`
 	ProductName      	string                     	`db:"namaProduct" json:"productName"`
 	CategoriesName    	string                     	`db:"namaCategories" json:"categoriesName"`
-	CreatedAt 			time.Time                  	`db:"createdAt"`
-	UpdatedAt 			gonull.Nullable[time.Time] 	`db:"updatedAt"`
+	CreatedAt 			time.Time                  	`db:"createdAt" json:"createdAt"`
+	UpdatedAt 			gonull.Nullable[time.Time] 	`db:"updatedAt" json:"updatedAt"`
+}
+
+
+
+
+
+
+
+// ------------ PRODUCT RATINGS ------------
+type Pro_Rate struct {
+	Id        		int                        	`db:"id"`
+	ProductId      	int                     	`db:"productId" form:"productId" binding:"required"`
+	Rate      		int                     	`db:"rate" form:"rate" binding:"required"`
+	ReviewMessege   string                     	`db:"reviewMessege" form:"reviewMessege"`
+	UsersId    		int                     	`db:"usersId" form:"usersId" binding:"required"`
+	CreatedAt 		time.Time                  	`db:"createdAt"`
+	UpdatedAt 		gonull.Nullable[time.Time] 	`db:"updatedAt"`
+}
+type Pro_RateNet struct {
+	Id        		int                        	`db:"id" json:"id"`
+	ProductName     string                     	`db:"namaProduct" json:"productName"`
+	Rate      		int                     	`db:"rate" json:"rate"`
+	ReviewMessege   gonull.Nullable[string]     `db:"reviewMessege" json:"reviewMessege"`
+	UsersName    	string                     	`db:"namaUser" json:"usersName"`
+	CreatedAt 		time.Time                  	`db:"createdAt" json:"createdAt"`
+	UpdatedAt 		gonull.Nullable[time.Time] 	`db:"updatedAt" json:"updatedAt"`
 }

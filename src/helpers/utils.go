@@ -1,58 +1,57 @@
 package helpers
 
 import (
-	"net/http"
-	"strings"
 	"github.com/gin-gonic/gin"
 	"github.com/putragabrielll/go-backend/src/services"
+	"net/http"
+	"strings"
 )
 
+func Utils(err error, ms string, c *gin.Context) {
 
-func Utils(err error, ms string, c *gin.Context){
-	
-	if strings.HasPrefix(err.Error(), "sql: no rows") { 
+	if strings.HasPrefix(err.Error(), "sql: no rows") {
 		c.JSON(http.StatusNotFound, &services.ResponseBack{
 			Success: false,
 			Message: ms,
 		})
 		return
-	} else if strings.HasPrefix(err.Error(), "Key: 'Person.Email'") { 
+	} else if strings.HasPrefix(err.Error(), "Key: 'Person.Email'") {
 		c.JSON(http.StatusBadRequest, &services.ResponseBack{
 			Success: false,
 			Message: ms,
 		})
 		return
-	} else if strings.HasPrefix(err.Error(), "Key: 'Person.Password'") { 
+	} else if strings.HasPrefix(err.Error(), "Key: 'Person.Password'") {
 		c.JSON(http.StatusBadRequest, &services.ResponseBack{
 			Success: false,
 			Message: "Password not be null!",
 		})
 		return
-	} else if strings.HasPrefix(err.Error(), "Key: 'RLUsers.Email'") { 
+	} else if strings.HasPrefix(err.Error(), "Key: 'RLUsers.Email'") {
 		c.JSON(http.StatusBadRequest, &services.ResponseBack{
 			Success: false,
 			Message: ms,
 		})
 		return
-	} else if strings.HasPrefix(err.Error(), "Key: 'RLUsers.Password'") { 
+	} else if strings.HasPrefix(err.Error(), "Key: 'RLUsers.Password'") {
 		c.JSON(http.StatusBadRequest, &services.ResponseBack{
 			Success: false,
 			Message: "Password not be null!",
 		})
 		return
-	} else if strings.HasPrefix(err.Error(), "Key: 'FormReset.Email'") { 
+	} else if strings.HasPrefix(err.Error(), "Key: 'FormReset.Email'") {
 		c.JSON(http.StatusBadRequest, &services.ResponseBack{
 			Success: false,
 			Message: ms,
 		})
 		return
-	} else if strings.HasPrefix(err.Error(), "invalid hash format") { 
+	} else if strings.HasPrefix(err.Error(), "invalid hash format") {
 		c.JSON(http.StatusBadRequest, &services.ResponseBack{
 			Success: false,
 			Message: ms,
 		})
 		return
-	} else if strings.HasSuffix(err.Error(), `unique constraint "users_email_key"`) { 
+	} else if strings.HasSuffix(err.Error(), `unique constraint "users_email_key"`) {
 		c.JSON(http.StatusBadRequest, &services.ResponseBack{
 			Success: false,
 			Message: ms,
@@ -184,11 +183,41 @@ func Utils(err error, ms string, c *gin.Context){
 			Message: "Categories Id is not regis!",
 		})
 		return
+	} else if strings.HasPrefix(err.Error(), "Key: 'Pro_Rate.ProductId'") {
+		c.JSON(http.StatusBadRequest, &services.ResponseBack{
+			Success: false,
+			Message: "Product Id is not null!",
+		})
+		return
+	} else if strings.HasPrefix(err.Error(), "Key: 'Pro_Rate.Rate'") {
+		c.JSON(http.StatusBadRequest, &services.ResponseBack{
+			Success: false,
+			Message: "Rate is not null!",
+		})
+		return
+	} else if strings.HasPrefix(err.Error(), "Key: 'Pro_Rate.UsersId'") {
+		c.JSON(http.StatusBadRequest, &services.ResponseBack{
+			Success: false,
+			Message: "Users Id is not null!",
+		})
+		return
+	} else if strings.HasSuffix(err.Error(), `violates foreign key constraint "productRatings_productId_fkey"`) {
+		c.JSON(http.StatusBadRequest, &services.ResponseBack{
+			Success: false,
+			Message: "Product Id is not regis!",
+		})
+		return
+	} else if strings.HasSuffix(err.Error(), `violates foreign key constraint "productRatings_usersId_fkey"`) {
+		c.JSON(http.StatusBadRequest, &services.ResponseBack{
+			Success: false,
+			Message: "Users Id is not regis!",
+		})
+		return
 	} else {
 		c.JSON(http.StatusInternalServerError, &services.ResponseBack{
 			Success: false,
 			Message: "Internal Server Error",
 		})
-		return 
+		return
 	}
 }
