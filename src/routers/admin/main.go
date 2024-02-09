@@ -1,8 +1,14 @@
 package adminRouters
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"github.com/putragabrielll/go-backend/src/middlewares"
+)
 
 func AdminRouter(r *gin.RouterGroup) {
+	authMiddleware, _ := middlewares.Auth()
+	r.Use(authMiddleware.MiddlewareFunc())
+	
 	usersRouter(r.Group("/users"))
 	productsRouter(r.Group("/products"))
 	promoRouters(r.Group("/promo"))

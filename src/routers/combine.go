@@ -2,8 +2,8 @@ package routers
 
 import (
 	"github.com/gin-gonic/gin"
-	authRouters "github.com/putragabrielll/go-backend/src/routers/auth"
 	adminRouters "github.com/putragabrielll/go-backend/src/routers/admin"
+	authRouters "github.com/putragabrielll/go-backend/src/routers/auth"
 )
 
 func Combine(r *gin.Engine){

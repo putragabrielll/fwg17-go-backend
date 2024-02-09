@@ -15,7 +15,7 @@ import (
 
 
 
-func Login(c *gin.Context){
+func Loginn(c *gin.Context){ // TIDAK TERPAKAI KARENA LOGIN DARI MIDDLEWARE
 	loginauth := services.RLUsers{}
 	err := c.ShouldBind(&loginauth) // untuk memasukkan data dari form ke struck Person{}
 	if err != nil {

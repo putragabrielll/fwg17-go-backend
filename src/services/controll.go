@@ -76,9 +76,10 @@ type PersonNet struct { // untuk struck respon saja dimana data yg tidak di isi 
 
 // Untuk users Register & Login
 type RLUsers struct {
-	Email    string `db:"email" json:"email" form:"email" binding:"email" binding:"required"`
-	Role     string `db:"role" json:"role"`
-	Password string `db:"password" json:"password" form:"password" binding:"required"`
+	// Id          int     `db:"id" json:"id"`
+	Email    	string 	`db:"email" json:"email" form:"email" binding:"email" binding:"required"`
+	Role     	string 	`db:"role" json:"role"`
+	Password 	string 	`db:"password" json:"password" form:"password" binding:"required"`
 }
 
 // Untuk forgot password
