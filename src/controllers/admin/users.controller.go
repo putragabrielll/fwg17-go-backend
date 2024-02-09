@@ -1,19 +1,19 @@
 package adminController
 
 import (
-	"fmt"
 	"math"
 	"net/http"
 	"strconv"
 	"github.com/KEINOS/go-argonize"
 	"github.com/gin-gonic/gin"
 	"github.com/putragabrielll/go-backend/src/helpers"
+	"github.com/putragabrielll/go-backend/src/middlewares"
 	"github.com/putragabrielll/go-backend/src/models"
 	"github.com/putragabrielll/go-backend/src/services"
 )
 
 // SELECT ALL USERS
-func ListAllUsers(c *gin.Context){ // contex => c "inisial aja"
+func ListAllUsers(c *gin.Context) { // contex => c "inisial aja"
 	filter := c.DefaultQuery("filter", "")
 	page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
 	sortby := c.DefaultQuery("sortby", "id")
@@ -23,14 +23,13 @@ func ListAllUsers(c *gin.Context){ // contex => c "inisial aja"
 
 	countData, _ := models.CountAllUsers(filter) // COUNT DATA USER
 	// https://dev.to/natamacm/round-numbers-in-go-5c01
-	page_total := math.Ceil(float64(countData)/float64(limit))
+	page_total := math.Ceil(float64(countData) / float64(limit))
 	page_next := page + 1
 	if !(page_next <= int(page_total)) {
 		page_next = int(0)
 	}
 	page_prev := page - 1
 
-	
 	users, err := models.ListAllUsers(filter, sortby, order, limit, offset)
 	if err != nil {
 		msg := "Users not found"
@@ -42,18 +41,17 @@ func ListAllUsers(c *gin.Context){ // contex => c "inisial aja"
 		Message: "List all users!",
 		PageInfo: services.PageInfo{
 			CurrentPage: page,
-			TotalPage: int(page_total),
-			NextPage: page_next,
-			PrevPage: page_prev,
-			TotalData: countData,
+			TotalPage:   int(page_total),
+			NextPage:    page_next,
+			PrevPage:    page_prev,
+			TotalData:   countData,
 		},
 		Results: users,
 	})
 }
 
-
 // GET USERS BY id
-func IdUsers(c *gin.Context){
+func IdUsers(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 	users, err := models.FindUsersId(id)
 	if err != nil {
@@ -69,10 +67,9 @@ func IdUsers(c *gin.Context){
 	})
 }
 
-
 // CREATE USERS
-func CreateUsers(c *gin.Context){
-	usersData := services.Person{} // menggunakan tipe data yg ada di model users.
+func CreateUsers(c *gin.Context) {
+	usersData := services.Person{}  // menggunakan tipe data yg ada di model users.
 	err := c.ShouldBind(&usersData) // untuk memasukkan data dari form ke struck Person{}
 	if err != nil {
 		msg := "Invalid Email!"
@@ -85,9 +82,8 @@ func CreateUsers(c *gin.Context){
 	usersData.Password = hasedPasswd.String()
 	usersData.Role = "customer"
 
-
 	createUser, err := models.CreateUsers(usersData)
-	if err != nil  {
+	if err != nil {
 		msg := "Email Already exists!"
 		helpers.Utils(err, msg, c) // Error Handler
 		return
@@ -99,12 +95,11 @@ func CreateUsers(c *gin.Context){
 	})
 }
 
-
 // UPDATE USERS
-func UpdateUsers(c *gin.Context){
+func UpdateUsers(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 	usersData := services.Person{}
-	c.ShouldBind(&usersData) // // untuk memasukkan data dari form ke struck Person{}
+	err := c.ShouldBind(&usersData) // untuk memasukkan data dari form ke struck Person{}
 	// if err != nil {
 	// 	msg := "Invalid Email!"
 	// 	helpers.Utils(err, msg, c) // Error Handle
@@ -115,11 +110,19 @@ func UpdateUsers(c *gin.Context){
 		hasedPasswd, _ := argonize.Hash(paswdhash)
 		usersData.Password = hasedPasswd.String()
 	}
-	
+
+	// -------------
+	cekFile, err := middlewares.UploadFile(c, "profile") // fungsi upload file
+	if err != nil {
+		msg := "Format file is not support!"
+		helpers.Utils(err, msg, c) // Error Handler
+		return
+	}
+	usersData.Picture = cekFile
 	usersData.Id = id // mengarahkan isi dari usersData dengan value "id" di ambil dari id di atas.
+	// -------------
 
 	updatedUsers, err := models.UpdateUsers(usersData)
-	fmt.Println(err)
 	if err != nil {
 		msg := "Users not found"
 		helpers.Utils(err, msg, c) // Error Handler
@@ -133,9 +136,8 @@ func UpdateUsers(c *gin.Context){
 	})
 }
 
-
 // DELETE USERS
-func DeleteUsers(c *gin.Context){
+func DeleteUsers(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 	users, err := models.DeleteUsersId(id)
 	if err != nil {

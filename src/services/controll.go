@@ -55,7 +55,7 @@ type Person struct {
 	Email       string                     `db:"email" json:"email" form:"email" binding:"email" binding:"required"`
 	PhoneNumber string                     `db:"phoneNumber" json:"phoneNumber" form:"phoneNumber"`
 	Address     string                     `db:"address" json:"address" form:"address"`
-	Picture     string                     `db:"picture" json:"picture" form:"picture"`
+	Picture     string                     `db:"picture" json:"picture"`
 	Role        string                     `db:"role" json:"role"`
 	Password    string                     `db:"password" json:"password" form:"password" binding:"required"`
 	CreatedAt   time.Time                  `db:"createdAt" json:"createdAt"`

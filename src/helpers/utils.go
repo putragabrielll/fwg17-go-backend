@@ -1,10 +1,11 @@
 package helpers
 
 import (
-	"github.com/gin-gonic/gin"
-	"github.com/putragabrielll/go-backend/src/services"
 	"net/http"
 	"strings"
+
+	"github.com/gin-gonic/gin"
+	"github.com/putragabrielll/go-backend/src/services"
 )
 
 func Utils(err error, ms string, c *gin.Context) {
@@ -211,6 +212,12 @@ func Utils(err error, ms string, c *gin.Context) {
 		c.JSON(http.StatusBadRequest, &services.ResponseBack{
 			Success: false,
 			Message: "Users Id is not regis!",
+		})
+		return
+	} else if err != nil {
+		c.JSON(http.StatusBadRequest, &services.ResponseBack{
+			Success: false,
+			Message: ms,
 		})
 		return
 	} else {

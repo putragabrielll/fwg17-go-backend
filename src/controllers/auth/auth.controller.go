@@ -30,7 +30,7 @@ func Login(c *gin.Context){
 		return
 	}
 	
-	checkpas, _ := argonize.DecodeHashStr(finduser.Password)
+	checkpas, _ := argonize.DecodeHashStr(finduser.Password) // cek password user
 	paswdcheck := []byte(loginauth.Password)
 	if !checkpas.IsValidPassword(paswdcheck) {
 		c.JSON(http.StatusBadRequest, &services.ResponseBack{
