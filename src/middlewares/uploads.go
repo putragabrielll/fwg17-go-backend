@@ -8,10 +8,10 @@ import (
 	"github.com/google/uuid"
 )
 
-func UploadFile(c *gin.Context, dest string) (string, error){
+func UploadFile(c *gin.Context, dest string) (string, error) {
 	file, _ := c.FormFile("picture") // "picture" => nama field / nama form
 	extensionFile := file.Header["Content-Type"][0]
-	// fmt.Println(extensionFile)
+	fmt.Println(file.Header)
 
 	ext := map[string]string{
 		"image/png":  ".png",
@@ -22,12 +22,15 @@ func UploadFile(c *gin.Context, dest string) (string, error){
 
 	// START VALIDATION FILE EXTENSION
 	validTypeFile := []string{
-		"image/png", 
-		"image/jpeg", 
+		"image/png",
+		"image/jpeg",
 		"image/jpg",
 	}
 	if !(strings.Contains(strings.Join(validTypeFile, ","), extensionFile)) {
-		return "", errors.New("ext: extension not support")
+		return "", errors.New("Extension not support!")
+	}
+	if file.Size > (2 * 1024 * 1024) {
+		return "", errors.New(("File to over size, Max file upload 2MB!"))
 	}
 	// END VALIDATION
 

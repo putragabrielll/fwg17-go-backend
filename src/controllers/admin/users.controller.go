@@ -1,6 +1,7 @@
 package adminController
 
 import (
+	"fmt"
 	"math"
 	"net/http"
 	"strconv"
@@ -114,7 +115,7 @@ func UpdateUsers(c *gin.Context) {
 	// -------------
 	cekFile, err := middlewares.UploadFile(c, "profile") // fungsi upload file
 	if err != nil {
-		msg := "Format file is not support!"
+		msg := fmt.Sprintf("%v", err)
 		helpers.Utils(err, msg, c) // Error Handler
 		return
 	}

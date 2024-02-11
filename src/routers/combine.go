@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	adminRouters "github.com/putragabrielll/go-backend/src/routers/admin"
 	authRouters "github.com/putragabrielll/go-backend/src/routers/auth"
+	customerRouters "github.com/putragabrielll/go-backend/src/routers/customer"
 )
 
 func Combine(r *gin.Engine){
@@ -13,5 +14,5 @@ func Combine(r *gin.Engine){
 	authRouters.AuthForgotPassword(r.Group("/forgot-password"))
 
 	adminRouters.AdminRouter(r.Group("/admin"))
-	// admin.AdminRouter(r.Group("/customer"))
+	customerRouters.CustomerRouter(r.Group("/customer"))
 }
