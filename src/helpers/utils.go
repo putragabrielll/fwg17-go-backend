@@ -3,7 +3,6 @@ package helpers
 import (
 	"net/http"
 	"strings"
-
 	"github.com/gin-gonic/gin"
 	"github.com/putragabrielll/go-backend/src/services"
 )

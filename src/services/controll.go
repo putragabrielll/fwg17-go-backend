@@ -41,6 +41,11 @@ type ResponseBack struct {
 	Message string `json:"message"`
 }
 
+//Token
+type TokenTemp struct {
+	Token string `json:"token"`
+}
+
 
 
 
@@ -76,7 +81,6 @@ type PersonNet struct { // untuk struck respon saja dimana data yg tidak di isi 
 
 // Untuk users Register & Login
 type RLUsers struct {
-	// Id          int     `db:"id" json:"id"`
 	Email    	string 	`db:"email" json:"email" form:"email" binding:"email" binding:"required"`
 	Role     	string 	`db:"role" json:"role"`
 	Password 	string 	`db:"password" json:"password" form:"password" binding:"required"`
