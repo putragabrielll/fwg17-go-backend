@@ -5,6 +5,7 @@ import (
 	adminRouters "github.com/putragabrielll/go-backend/src/routers/admin"
 	authRouters "github.com/putragabrielll/go-backend/src/routers/auth"
 	customerRouters "github.com/putragabrielll/go-backend/src/routers/customer"
+	globalRouters "github.com/putragabrielll/go-backend/src/routers/global"
 )
 
 func Combine(r *gin.Engine){
@@ -15,4 +16,7 @@ func Combine(r *gin.Engine){
 
 	adminRouters.AdminRouter(r.Group("/admin"))
 	customerRouters.CustomerRouter(r.Group("/customer"))
+
+	//------------ GLOBAL ------------
+	globalRouters.GlobalRouter(r.Group(""))
 }

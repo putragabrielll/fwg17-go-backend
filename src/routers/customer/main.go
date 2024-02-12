@@ -11,5 +11,5 @@ func CustomerRouter(r *gin.RouterGroup){
 	r.Use(authMiddleware.MiddlewareFunc())
 
 	profileRouter(r.Group("/profile"))
-	// profileRouter(r.Group("/profile"))
+	ordersRouters(r.Group("/orders"))
 }

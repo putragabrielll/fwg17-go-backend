@@ -1,4 +1,4 @@
-package adminController
+package globalController
 
 import (
 	"math"
@@ -63,64 +63,6 @@ func IdProducts(c *gin.Context){
 	c.JSON(http.StatusOK, &services.ResponseList{
 		Success: true,
 		Message: "Detail products!",
-		Results: users,
-	})
-}
-
-
-// CREATE PRODUCTS
-func CreateProducts(c *gin.Context){
-	productsData := services.Products{}
-	err := c.ShouldBind(&productsData)
-	if err != nil {
-		msg := "Data not be null!"
-		helpers.Utils(err, msg, c) // Error Handle
-		return
-	}
-	
-	createdProducts, _ := models.CreateProducts(productsData)
-	c.JSON(http.StatusOK, &services.ResponseList{
-		Success: true,
-		Message: "Create products successfully!",
-		Results: createdProducts,
-	})
-}
-
-
-// UPDATE PRODUCTS
-func UpdateProducts(c *gin.Context){
-	id, _ := strconv.Atoi(c.Param("id"))
-	productsData := services.Products{}
-	err := c.ShouldBind(&productsData) // untuk memasukkan data dari form ke struck Person{}
-	if err != nil {
-		msg := "Data not be null!"
-		helpers.Utils(err, msg, c) // Error Handle
-		return
-	}
-	productsData.Id = id
-
-	updatedUsers, err := models.UpdateProducts(productsData)
-	c.JSON(http.StatusOK, &services.ResponseList{
-		Success: true,
-		Message: "Update products successfully!",
-		Results: updatedUsers,
-	})
-}
-
-
-// DELETE PRODUCTS
-func DeleteProducts(c *gin.Context){
-	id, _ := strconv.Atoi(c.Param("id"))
-	users, err := models.DeleteProducts(id)
-	if err != nil {
-		msg := "Products not found!"
-		helpers.Utils(err, msg, c) // Error Handler
-		return
-	}
-
-	c.JSON(http.StatusOK, &services.ResponseList{
-		Success: true,
-		Message: "Delete products successfully!",
 		Results: users,
 	})
 }

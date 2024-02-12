@@ -6,6 +6,7 @@ import (
 	"github.com/putragabrielll/go-backend/src/services"
 )
 
+//------------ ADMIN ------------
 // SELECT * orders
 func ListOrders(table string, column string, filter string, order string, limit int, offset int) ([]services.OrdersNet, error) {
 	sql := `
@@ -135,5 +136,35 @@ func DeleteOrders(id int) (services.Orders, error){
 	sql := `DELETE FROM "orders" WHERE "id"= $1 RETURNING *`
 	data := services.Orders{}
 	err := lib.DbConnection().Get(&data, sql, id) // id diambil dari parameter id.
+	return data, err
+}
+
+
+
+
+//------------ CUSTOMER ------------
+// SELECT orders Customer
+func CustomerFindOrders(id int) ([]services.OrdersNet, error) {
+	sql := `
+	SELECT 
+	"o"."id", 
+    "user"."fullName" AS "userName",
+    "o"."orderNumber",
+    "prom"."name" AS "promoName",
+    "o"."total",
+    "o"."taxAmount",
+    "o"."status",
+    "o"."deliveryAddress",
+    "o"."fullName",
+    "o"."email",
+    "o"."createdAt",
+    "o"."updatedAt"
+	FROM "orders" "o"
+	INNER JOIN "users" "user" ON "user"."id" = "o"."usersId"
+    INNER JOIN "promo" "prom" ON "prom"."id" = "o"."promoId"
+	WHERE "user"."id"=$1
+	`
+	data := []services.OrdersNet{}
+	err := lib.DbConnection().Select(&data, sql, id)
 	return data, err
 }

@@ -20,7 +20,7 @@ func ListAllPS(c *gin.Context){
 	
 	c.JSON(http.StatusOK, &services.ResponseList{
 		Success: true,
-		Message: "List all products!",
+		Message: "List all Size!",
 		Results: ListPS,
 	})
 }
