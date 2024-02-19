@@ -23,5 +23,5 @@ func main() {
 	}))
 	routers.Combine(r)
 	r.NoRoute(noLink)       // jika link tidak ada
-	r.Run("127.0.0.1:8080") // jika ingin ganti PORT bisa menggunakan ":5050" .
+	r.Run(":8080") // jika ingin ganti PORT bisa menggunakan ":5050" .
 }
