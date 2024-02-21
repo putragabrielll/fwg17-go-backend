@@ -75,9 +75,9 @@ func CreateOD(c *gin.Context){
 		return
 	}
 	// --------------
-	product, err := models.FindProductsId(odData.ProductId)
-	size, err := models.FindPSId(odData.ProductSizeId)
-	variant, err := models.FindPVId(odData.ProductVariantId)
+	product, _ := models.FindProductsId(odData.ProductId)
+	size, _ := models.FindPSId(odData.ProductSizeId)
+	variant, _ := models.FindPVId(odData.ProductVariantId)
 	odData.SubTotal = (int(product.Price) + int(size.AdditionalPrice) + int(variant.AdditionalPrice)) * odData.Qty
 	// --------------
 
