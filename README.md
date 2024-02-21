@@ -17,8 +17,8 @@ Built using
 
 ![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
 ![Nodemon](https://img.shields.io/badge/NODEMON-%23323330.svg?style=for-the-badge&logo=nodemon&logoColor=%BBDEAD)
-[![Go](https://img.shields.io/badge/Go-blue?style=for-the-badge&logo=go&logoColor=white)](https://golang.org/)
-[![gin-gonic](https://img.shields.io/badge/gin-1DA1F2?style=for-the-badge&logo=gin&logoColor=white)](https://gin-gonic.com/)
+![Go](https://img.shields.io/badge/Go-blue?style=for-the-badge&logo=go&logoColor=white)
+![gin-gonic](https://img.shields.io/badge/gin-1DA1F2?style=for-the-badge&logo=gin&logoColor=white)
 ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
 ![NPM](https://img.shields.io/badge/NPM-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white)
 ![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
