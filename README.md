@@ -1,4 +1,4 @@
-# Coffee Shop Backend
+# Coffee Shop Go-Backend
 
 Welcome to the Coffee Shop Backend Web Project! This repository contains the back-end source code for the Online Coffee Shop web application. With Express.js and NodeJs structure.
 
@@ -33,8 +33,8 @@ To run the project locally, follow these simple steps:
 
 1. Clone this repository
 ```sh
-  git clone https://github.com/putragabrielll/fwg17-backend-beginner
-  cd fwg17-backend-beginner
+  git clone https://github.com/putragabrielll/fwg17-go-backend
+  cd fwg17-go-backend
 ```
 
 2. Open in VSCode
@@ -44,12 +44,12 @@ To run the project locally, follow these simple steps:
 
 3. install all the dependencies
 ```sh
-  npm install
+  go mod tidy
 ```
 
 4. run the project
 ```sh
-  npm run start
+  go run .
 ```
 
 
@@ -69,12 +69,17 @@ To run this project, you will need to add the following environment variables to
 #### Login
 
 ```http
-  POST auth/login
+  POST /login
 ```
 #### Register
 
 ```http
-  POST auth/register
+  POST /register
+```
+#### Forgot Password
+
+```http
+  POST /forgot-password
 ```
 
 | Parameter | Type     | Description                |
@@ -140,9 +145,9 @@ To run this project, you will need to add the following environment variables to
 
 ## Technologies Used
 
-**ExpressJs:** a swift and minimalist web framework for Node.js, this endeavor is dedicated to crafting resilient and scalable server-side applications.
+**Gin-Gonic:** a fast and minimalist web framework, this effort is dedicated to creating fast as well as resilient and scalable server-side applications.
 
-**NodeJs:** Node.js serves as the foundation for this project, capitalizing on its non-blocking, event-driven architecture to ensure the development of server-side applications that are both scalable and high-performing.
+**Go:** Go serves as the foundation for this project, utilizing a non-blocking and event-driven architecture to ensure scalable and high-performance server-side application development.
 
 ## ✍️ Coffee Shop - Frontend Repository
 https://github.com/putragabrielll/fwg17-beginner-frontend
