@@ -21,6 +21,6 @@
 go.work
 
 # dotenv
-.env
+
 uploads
 .dockerignore
