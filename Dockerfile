@@ -1,6 +1,6 @@
 FROM golang
 
-# bebas nama folder di dockers
+# bebas nama folder di docker
 WORKDIR /go-coffee-shop 
 
 COPY . .
