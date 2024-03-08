@@ -113,7 +113,7 @@ func UpdateUsers(c *gin.Context) {
 	}
 
 	// -------------
-	cekFile, err := middlewares.UploadFile(c, "profile") // fungsi upload file
+	cekFile, err := middlewares.UploadFile(c, "pisture", "profile") // fungsi upload file
 	if err != nil {
 		msg := fmt.Sprintf("%v", err)
 		helpers.Utils(err, msg, c) // Error Handler
