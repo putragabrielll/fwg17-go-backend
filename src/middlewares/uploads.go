@@ -8,7 +8,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func UploadFile(c *gin.Context, dest string) (string, error) {
+func UploadFile(c *gin.Context, form string, dest string) (string, error) {
 	file, _ := c.FormFile("picture") // "picture" => nama field / nama form
 	extensionFile := file.Header["Content-Type"][0]
 	// fmt.Println(file.Header)

@@ -48,15 +48,18 @@ func UpdateUser(c *gin.Context) {
 	}
 
 	// -------------
-	cekFile, err := middlewares.UploadFile(c, "profile") // fungsi upload file
-	if err != nil {
-		msg := fmt.Sprintf("%v", err)
-		helpers.Utils(err, msg, c) // Error Handler
-		return
+	file, _ := c.FormFile("picture")
+	if file != nil {
+		cekFile, err := middlewares.UploadFile(c, "picture", "profile") // fungsi upload file
+		if err != nil {
+			msg := fmt.Sprintf("%v", err)
+			helpers.Utils(err, msg, c) // Error Handler
+			return
+		}
+		profileData.Picture = cekFile
 	}
-	profileData.Picture = cekFile
-	profileData.Id = id // mengarahkan isi dari profileData dengan value "id" di ambil dari id di atas.
 	// -------------
+	profileData.Id = id // mengarahkan isi dari profileData dengan value "id" di ambil dari id di atas.
 
 	updatedUsers, err := models.UpdateUsers(profileData)
 	if err != nil {
