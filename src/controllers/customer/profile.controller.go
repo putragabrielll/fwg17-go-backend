@@ -50,7 +50,7 @@ func UpdateUser(c *gin.Context) {
 	// -------------
 	file, _ := c.FormFile("picture")
 	if file != nil {
-		cekFile, err := middlewares.UploadFile(c, "picture", "profile") // fungsi upload file
+		cekFile, err := middlewares.UploadFile(c, "profile") // fungsi upload file
 		if err != nil {
 			msg := fmt.Sprintf("%v", err)
 			helpers.Utils(err, msg, c) // Error Handler
